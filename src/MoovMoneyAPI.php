@@ -2,12 +2,12 @@
 
 namespace MoovMoney;
 
-use MoovMoney\Interfaces\ConfigInterface;
+use MoovMoney\Interfaces\ConfigurationInterface;
 
 class MoovMoneyAPI
 {
 
-    public function __construct(private ConfigInterface $config) {}
+    public function __construct(private ConfigurationInterface $config) {}
 
     public function pushTransaction(
         string $telephone,

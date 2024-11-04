@@ -2,17 +2,18 @@
 
 namespace MoovMoney;
 
-use MoovMoney\Interfaces\ConfigInterface;
+use MoovMoney\Interfaces\ConfigurationInterface;
 
-class MoovMoneyAPIConfig implements ConfigInterface
+class MoovMoneyAPIConfig implements ConfigurationInterface
 {
 
     private string $username;
     
     private string $password;
 
-
     private string $baseUrl;
+
+    private string $encryptionKey;
 
     public function getUsername(): string {
 
@@ -42,6 +43,17 @@ class MoovMoneyAPIConfig implements ConfigInterface
     public function setBaseUrl(string $baseUrl): self {
 
         $this->baseUrl = $baseUrl;
+        return $this;
+    }
+
+    public function getEncryptionKey(): string {
+        
+        return $this->encryptionKey;
+    }
+
+    public function setEncryptionKey(string $encryptionKey): self {
+
+        $this->encryptionKey = $encryptionKey;
         return $this;
     }
 }

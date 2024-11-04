@@ -25,3 +25,11 @@ it('should return the base url', function() {
 
     expect($config->getUsername())->toBe('http://localhost:8080');
 });
+
+it('should return the encryption key', function() {
+    
+    $config = new MoovMoneyAPIConfig();
+    $config->setEncryptionKey('key');
+
+    expect($config->getEncryptionKey())->toBe('key');
+});
