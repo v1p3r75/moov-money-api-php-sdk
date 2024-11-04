@@ -1,0 +1,29 @@
+{
+    "name": "v1p3r75/moov-money-api-sdk",
+    "description": "Moov money api sdk for php",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "MoovMoney\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Fortunatus KIDJE",
+            "email": "elfriedv16@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require-dev": {
+        "pestphp/pest": "3.x-dev"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "^7.0"
+    }
+}
