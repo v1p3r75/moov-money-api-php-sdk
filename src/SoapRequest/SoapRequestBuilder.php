@@ -4,8 +4,8 @@ namespace MoovMoney\SoapRequest;
 
 class SoapRequestBuilder
 {
-
-    private function buildRequest(string $body): string {
+    private function buildRequest(string $body): string
+    {
 
         return <<<XML
         <?xml version="1.0" encoding="utf-16"?>
@@ -18,8 +18,16 @@ class SoapRequestBuilder
         XML;
     }
 
-    public function buildPushTransactionRequest(string $token, int $amount, string $phone, string $message, string $data1 = "", string $data2 = "", int $fee = 0): string
-    {
+    public function buildPushTransactionRequest(
+        string $token,
+        int $amount,
+        string $phone,
+        string $message,
+        string $data1 = "",
+        string $data2 = "",
+        int $fee = 0
+    ): string {
+
         $data = <<<XML
             <api:Push>
                 <token>{$token}</token>
@@ -36,8 +44,16 @@ class SoapRequestBuilder
 
     }
 
-    public function buildPushWithPendingRequest(string $token, int $amount, string $phone, string $message, string $data1 = "", string $data2 = "", int $fee = 0): string
-    {
+    public function buildPushWithPendingRequest(
+        string $token,
+        int $amount,
+        string $phone,
+        string $message,
+        string $data1 = "",
+        string $data2 = "",
+        int $fee = 0
+    ): string {
+        
         $data = <<<XML
             <api:PushWithPending>
                 <token>{$token}</token>
@@ -47,14 +63,15 @@ class SoapRequestBuilder
                 <externaldata1>{$data1}</externaldata1>
                 <externaldata2>{$data2}</externaldata2>
                 <fee>{$fee}</fee>
-            </api:PushWithPendi>
+            </api:PushWithPending>
         XML;
 
         return $this->buildRequest($data);
 
     }
 
-    public function buildTransactionStatusRequest(string $token ,string $referenceId): string {
+    public function buildTransactionStatusRequest(string $token, string $referenceId): string
+    {
 
         $data = <<<XML
             <api:getTransactionStatus>

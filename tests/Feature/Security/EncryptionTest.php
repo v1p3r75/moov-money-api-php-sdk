@@ -3,7 +3,7 @@
 use MoovMoney\MoovMoneyAPIConfig;
 use MoovMoney\Security\Encryption;
 
-it ('should throw exception for encryption key length', function() {
+it('should throw exception for encryption key length', function () {
 
     $config = new MoovMoneyAPIConfig();
     $config->setUsername('username');
@@ -15,7 +15,7 @@ it ('should throw exception for encryption key length', function() {
 })->throws(InvalidArgumentException::class);
 
 
-it ('should return the encryption token', function() {
+it('should return the encryption token', function () {
 
     $config = new MoovMoneyAPIConfig();
     $config->setUsername('username');

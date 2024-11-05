@@ -24,9 +24,21 @@
 |
 */
 
-// expect()->extend('toBeOne', function () {
-//     return $this->toBe(1);
-// });
+expect()->extend('_toBeBody', function ($body) {
+
+    $base = <<<XML
+        <?xml version="1.0" encoding="utf-16"?>
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:api="http://api.merchant.tlc.com/">
+            <soapenv:Header/>
+            <soapenv:Body>
+                {$body}
+            </soapenv:Body>
+        </soapenv:Envelope>
+        XML;
+
+    return $this->toBe($base);
+
+});
 
 /*
 |--------------------------------------------------------------------------

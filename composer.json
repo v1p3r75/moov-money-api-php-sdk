@@ -17,7 +17,8 @@
     "minimum-stability": "dev",
     "require-dev": {
         "pestphp/pest": "3.x-dev",
-        "phpstan/phpstan": "2.0.x-dev"
+        "phpstan/phpstan": "2.0.x-dev",
+        "friendsofphp/php-cs-fixer": "dev-master"
     },
     "config": {
         "allow-plugins": {
