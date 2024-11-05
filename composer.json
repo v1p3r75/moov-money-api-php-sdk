@@ -1,6 +1,7 @@
 {
     "name": "v1p3r75/moov-money-api-sdk",
-    "description": "Moov money api sdk for php",
+    "description": "Moov Money PHP SDK is a library designed to facilitate the integration of the Moov Money API.",
+    "keywords": ["moov-money-api", "moov-money-sdk", "moov-money-php", "moov-money-sdk-php", "moov", "money", "api", "sdk", "php"],
     "type": "library",
     "license": "MIT",
     "autoload": {
