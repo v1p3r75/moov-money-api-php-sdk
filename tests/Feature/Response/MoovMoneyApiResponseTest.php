@@ -23,4 +23,5 @@ it('should return the right values (status, message, referenceId, etc)', functio
     expect($response->get("transid"))->toBe("tag");
     expect($response->get("other"))->toBeNull();
     expect($response->getLongDescription())->toBe($apiStatus->getLongDescription(2));
+    expect($response->toArray())->toBeArray()->toBe($data);
 });
