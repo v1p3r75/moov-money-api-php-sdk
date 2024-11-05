@@ -31,7 +31,7 @@ final class SoapResponseParser
          */
         $response = (array) $response;
         $faultcode = $response["faultcode"] ?? "Error";
-        $faultstring = $response["faultstring"] ?? "An error occurred";
+        $faultstring = $response["faultstring"] ?? "An error has occurred";
 
         return sprintf("[%s] : %s", $faultcode, json_encode($faultstring));
     }

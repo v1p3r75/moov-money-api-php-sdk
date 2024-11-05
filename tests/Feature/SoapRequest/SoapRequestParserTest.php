@@ -68,6 +68,6 @@ it ('should return the server error code and message', function() {
 
     $response = SoapResponseParser::parseError($data2);
 
-    expect($response)->toBeString->toBe('[Error] : "An error occurred"');
+    expect($response)->toBeString->toBe('[Error] : "An error has occurred"');
 
 });

@@ -2,34 +2,17 @@
 
 use MoovMoney\MoovMoneyAPIConfig;
 
-it('should return the username', function () {
+it('should return the configuration values (username, password, etc)', function () {
 
     $config = new MoovMoneyAPIConfig();
     $config->setUsername('username');
-
-    expect($config->getUsername())->toBe('username');
-});
-
-it('should return the password', function () {
-
-    $config = new MoovMoneyAPIConfig();
-    $config->setUsername('password');
-
-    expect($config->getUsername())->toBe('password');
-});
-
-it('should return the base url', function () {
-
-    $config = new MoovMoneyAPIConfig();
-    $config->setUsername('http://localhost:8080');
-
-    expect($config->getUsername())->toBe('http://localhost:8080');
-});
-
-it('should return the encryption key', function () {
-
-    $config = new MoovMoneyAPIConfig();
+    $config->setPassword('password');
+    $config->setBaseUrl('http://localhost:8080');
     $config->setEncryptionKey('key');
 
+    expect($config->getUsername())->toBe('username');
+    expect($config->getPassword())->toBe('password');
+    expect($config->getBaseUrl())->toBe('http://localhost:8080');
     expect($config->getEncryptionKey())->toBe('key');
+    
 });
