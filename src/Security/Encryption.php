@@ -9,7 +9,7 @@ class Encryption
 
     private ?string $token = null;
 
-    private $isFailed = false;
+    private bool $isFailed = false;
 
 
     public function __construct(private ConfigurationInterface $config) {
