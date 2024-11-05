@@ -51,7 +51,49 @@ expect()->extend('_toBeBody', function ($body) {
 |
 */
 
-// function something()
-// {
-//     // ..
-// }
+function buildFakeResponse($body): string {
+
+    $data = <<<XML
+        <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+        <soap:Body>
+            {$body}
+        </soap:Body>
+    </soap:Envelope>
+    XML;
+
+    return $data;
+}
+
+function getPushTransactionResponse(): string
+{
+    $data = <<<XML
+        <ns2:PushWithPendingResponse xmlns:ns2="http://api.merchant.tlc.com/">
+            <result>
+                <description>description</description>
+                <referenceid>12345678</referenceid>
+                <status>111</status>
+                <transid>tag</transid>
+            </result>
+        </ns2:PushWithPendingResponse>
+    XML;
+
+    return buildFakeResponse($data);
+}
+
+
+function getResponseError(): string {
+    return <<<XML
+        <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+            <soap:Body>
+                <soap:Fault>
+                    <faultcode>soap:Server</faultcode>
+                    <faultstring>For input string</faultstring>
+                    <detail>
+                        <ns1:Exception xmlns:ns1="http://api.merchant.tlc.com/"/>
+                    </detail>
+                </soap:Fault>
+            </soap:Body>
+        </soap:Envelope>
+    XML;
+
+}

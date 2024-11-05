@@ -1,9 +1,11 @@
 <?php
 
 use GuzzleHttp\Client;
-use GuzzleHttp\ClientInterface;
+use GuzzleHttp\Psr7\Response;
+use MoovMoney\Exceptions\ServerErrorException;
 use MoovMoney\MoovMoneyAPI;
 use MoovMoney\MoovMoneyAPIConfig;
+use MoovMoney\Response\MoovMoneyApiResponse;
 
 it("should send push transaction request", function() {
 
@@ -11,15 +13,26 @@ it("should send push transaction request", function() {
     $config->setUsername('username');
     $config->setPassword('password');
     $config->setBaseUrl('http://localhost:8080');
-    $config->setEncryptionKey('tlc12345tlc12345tlc12345tlc12345');
+
+    $responseFakeSuccess = new Response(status: 200, body: getPushTransactionResponse());
+    $responseFakeFailure = new Response(status: 400, body: getResponseError());
 
     $client = Mockery::mock(Client::class);
+    $client->shouldReceive("sendRequest")->twice()->andReturn($responseFakeSuccess, $responseFakeFailure);
 
-    $client->shouldReceive("sendRequest")->once()->andReturn("");
-
+    
     $sdk = new MoovMoneyAPI($config, $client);
 
-    $return = $sdk->pushTransaction("90457142", 2000, "message");
+    $response = $sdk->pushTransaction("90457142", 2000, "message");
+    expect($response)->toBeInstanceOf(MoovMoneyApiResponse::class);
+    expect($response->getStatusCode())->toBe(111);
+    expect($response->getDescription())->toBe('description');
+    expect($response->getReferenceId())->toBe('12345678');
+    expect($response->getTransactionData())->toBe('tag');
 
-    var_dump($return);
-});
+    $sdk->pushTransaction("90457142", 2000, "message");
+
+})->throws(
+    ServerErrorException::class,
+    '[soap:Server] : "For input string"'
+);

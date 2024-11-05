@@ -8,6 +8,9 @@ it('should return the configuration values (username, password, etc)', function 
     $config->setUsername('username');
     $config->setPassword('password');
     $config->setBaseUrl('http://localhost:8080');
+
+    expect($config->getEncryptionKey())->toBe('tlc12345tlc12345tlc12345tlc12345');
+
     $config->setEncryptionKey('key');
 
     expect($config->getUsername())->toBe('username');

@@ -1,5 +1,6 @@
 <?php
 
+use MoovMoney\Exceptions\ServerErrorException;
 use MoovMoney\Response\MoovMoneyApiResponse;
 use MoovMoney\SoapRequest\SoapResponseParser;
 
@@ -71,3 +72,15 @@ it ('should return the server error code and message', function() {
     expect($response)->toBeString->toBe('[Error] : "An error has occurred"');
 
 });
+
+// it('should throw an exception if the body is not a valid xml string [success]', function() {
+
+//     SoapResponseParser::parse('invalid xml string');
+
+// })->throws(ServerErrorException::class);
+
+// it('should throw an exception if the body is not a valid xml string [error]', function() {
+
+//     SoapResponseParser::parseError('invalid xml string');
+    
+// })->throws(ServerErrorException::class);
