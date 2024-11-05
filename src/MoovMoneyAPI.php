@@ -23,6 +23,7 @@ final class MoovMoneyAPI
 
         $this->client = $client ?? new Client([
             'base_uri' => $config->getBaseUrl(),
+            'timeout' => $config->getRequestTimeout(),
         ]);
 
         $this->encryption = new Encryption($config);

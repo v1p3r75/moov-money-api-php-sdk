@@ -11,4 +11,6 @@ interface ConfigurationInterface
     public function getBaseUrl(): string;
 
     public function getEncryptionKey(): string;
+
+    public function getRequestTimeout(): float;
 }

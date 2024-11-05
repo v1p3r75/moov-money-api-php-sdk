@@ -12,7 +12,9 @@ final class MoovMoneyAPIConfig implements ConfigurationInterface
 
     private string $baseUrl;
 
-    private string $encryptionKey;
+    private string $encryptionKey = "tlc12345tlc12345tlc12345tlc12345";
+
+    private float $requestTimeout = 0.3;
 
     public function getUsername(): string
     {
@@ -61,6 +63,19 @@ final class MoovMoneyAPIConfig implements ConfigurationInterface
     {
 
         $this->encryptionKey = $encryptionKey;
+        return $this;
+    }
+    
+    public function getRequestTimeout(): float
+    {
+
+        return $this->requestTimeout;
+    }
+
+    public function setRequestTimeout(float $requestTimeout): self
+    {
+
+        $this->requestTimeout = $requestTimeout;
         return $this;
     }
 }
