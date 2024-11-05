@@ -6,13 +6,13 @@ use MoovMoney\Interfaces\ConfigurationInterface;
 
 class Encryption
 {
-
     private ?string $token = null;
 
     private bool $isFailed = false;
 
 
-    public function __construct(private ConfigurationInterface $config) {
+    public function __construct(private ConfigurationInterface $config)
+    {
 
         $this->generateToken();
     }
@@ -42,17 +42,20 @@ class Encryption
         $this->token = base64_encode($encrypted);
     }
 
-    public function getToken(): string|null {
+    public function getToken(): string|null
+    {
 
         return $this->token;
     }
 
-    public function hasError(): bool {
+    public function hasError(): bool
+    {
 
         return $this->isFailed;
     }
 
-    private function isKeyLengthValid(string $key): bool {
+    private function isKeyLengthValid(string $key): bool
+    {
 
         $len = strlen($key);
         return $len === 16 || $len === 24 || $len === 32;
