@@ -1,5 +1,6 @@
 <?php
 
+use MoovMoney\Common\ApiStatus;
 use MoovMoney\Response\MoovMoneyApiResponse;
 
 
@@ -13,6 +14,7 @@ it('should return the right values (status, message, referenceId, etc)', functio
     ];
 
     $response = new MoovMoneyApiResponse($data);
+    $apiStatus = new ApiStatus();
 
     expect($response->getStatusCode())->toBe(2);
     expect($response->getReferenceId())->toBe("12345678");
@@ -20,4 +22,5 @@ it('should return the right values (status, message, referenceId, etc)', functio
     expect($response->getTransactionData())->toBe("tag");
     expect($response->get("transid"))->toBe("tag");
     expect($response->get("other"))->toBeNull();
+    expect($response->getLongDescription())->toBe($apiStatus->getLongDescription(2));
 });

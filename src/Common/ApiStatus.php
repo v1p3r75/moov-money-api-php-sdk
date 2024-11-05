@@ -1,9 +1,24 @@
 <?php
 
-namespace App\Common;
+namespace MoovMoney\Common;
 
 class ApiStatus
 {
-    public const TOKEN_INVALID = 123;
+    /**
+     * @var array<string, string> $status
+     */
+    private array $status = [];
+
+    public function __construct() {
+
+        $this->status = require(__DIR__ . "/data/status.php");
+
+    }
+
+    public function getLongDescription(string $status): string {
+
+        return $this->status[$status] ?? "";
+        
+    }
 
 }
