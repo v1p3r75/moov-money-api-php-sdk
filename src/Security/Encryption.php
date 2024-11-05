@@ -2,11 +2,12 @@
 
 namespace MoovMoney\Security;
 
+use InvalidArgumentException;
 use MoovMoney\Interfaces\ConfigurationInterface;
 
-class Encryption
+final class Encryption
 {
-    private ?string $token = null;
+    private string $token = "";
 
     private bool $isFailed = false;
 
@@ -26,7 +27,7 @@ class Encryption
 
         if (!$this->isKeyLengthValid($key)) {
 
-            throw new \InvalidArgumentException("Secret key's length must be 128, 192 or 256 bits");
+            throw new InvalidArgumentException("Secret key's length must be 128, 192 or 256 bits");
         }
 
         $cipher = "AES-256-CBC";
@@ -42,7 +43,7 @@ class Encryption
         $this->token = base64_encode($encrypted);
     }
 
-    public function getToken(): string|null
+    public function getToken(): string
     {
 
         return $this->token;

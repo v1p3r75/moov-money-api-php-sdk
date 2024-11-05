@@ -2,7 +2,7 @@
 
 namespace MoovMoney\SoapRequest;
 
-class SoapRequestBuilder
+final class SoapRequestBuilder
 {
     private function buildRequest(string $body): string
     {
@@ -53,7 +53,7 @@ class SoapRequestBuilder
         string $data2 = "",
         int $fee = 0
     ): string {
-        
+
         $data = <<<XML
             <api:PushWithPending>
                 <token>{$token}</token>
