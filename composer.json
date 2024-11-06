@@ -29,6 +29,7 @@
             "pestphp/pest-plugin": true
         }
     },
+    "minimum-stability": "stable",
     "require": {
         "guzzlehttp/guzzle": "^7.0",
         "psr/http-client": "^1.0"
