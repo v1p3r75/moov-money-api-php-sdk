@@ -1,6 +1,8 @@
 <?php
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
+use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
 use MoovMoney\Exceptions\ServerErrorException;
 use MoovMoney\MoovMoneyAPI;
@@ -14,12 +16,13 @@ it("should send push transaction request", function() {
     $config->setPassword('password');
     $config->setBaseUrl('http://localhost:8080');
 
-    $responseFakeSuccess = new Response(status: 200, body: getPushTransactionResponse());
-    $responseFakeFailure = new Response(status: 400, body: getResponseError());
-
-    $client = Mockery::mock(Client::class);
-    $client->shouldReceive("sendRequest")->twice()->andReturn($responseFakeSuccess, $responseFakeFailure);
-
+    $mock = new MockHandler([
+        new Response(status: 200, body: getPushTransactionResponse()),
+        new Response(status: 400, body: getResponseError())
+    ]);
+    
+    $handlerStack = HandlerStack::create($mock);
+    $client = new Client(['handler' => $handlerStack]);
     
     $sdk = new MoovMoneyAPI($config, $client);
 
@@ -44,12 +47,13 @@ it("should send push with pending transaction request", function() {
     $config->setPassword('password');
     $config->setBaseUrl('http://localhost:8080');
 
-    $responseFakeSuccess = new Response(status: 200, body: getPushWithPendingSuccessResponse());
-    $responseFakePending = new Response(status: 200, body: getPushWithPendingResponse());
-
-    $client = Mockery::mock(Client::class);
-    $client->shouldReceive("sendRequest")->twice()->andReturn($responseFakeSuccess, $responseFakePending);
-
+    $mock = new MockHandler([
+        new Response(status: 200, body: getPushWithPendingSuccessResponse()),
+        new Response(status: 200, body: getPushWithPendingResponse())
+    ]);
+    
+    $handlerStack = HandlerStack::create($mock);
+    $client = new Client(['handler' => $handlerStack]);
     
     $sdk = new MoovMoneyAPI($config, $client);
 
@@ -78,12 +82,13 @@ it("should check a transaction status", function() {
     $config->setPassword('password');
     $config->setBaseUrl('http://localhost:8080');
 
-    $responseFakeSuccess = new Response(status: 200, body: getTransactionStatusResponse());
-
-    $client = Mockery::mock(Client::class);
-    $client->shouldReceive("sendRequest")->once()->andReturn($responseFakeSuccess);
-
+    $mock = new MockHandler([
+        new Response(status: 200, body: getTransactionStatusResponse())
+    ]);
     
+    $handlerStack = HandlerStack::create($mock);
+    $client = new Client(['handler' => $handlerStack]);
+
     $sdk = new MoovMoneyAPI($config, $client);
 
     $response = $sdk->getTransactionStatus("12345678");
