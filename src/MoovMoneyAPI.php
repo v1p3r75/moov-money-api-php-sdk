@@ -78,6 +78,15 @@ final class MoovMoneyAPI
 
     }
 
+    public function getTransactionStatus(string $referenceId): MoovMoneyApiResponse
+    {
+
+        $body = $this->builder->buildTransactionStatusRequest($this->encryption->getToken(), $referenceId);
+
+        return $this->request($body);
+
+    }
+
     private function request(string $body): MoovMoneyApiResponse
     {
 

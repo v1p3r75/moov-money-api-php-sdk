@@ -64,6 +64,8 @@ function buildFakeResponse($body): string {
     return $data;
 }
 
+// ------- Push Transaction --------------------------
+
 function getPushTransactionResponse(): string
 {
     $data = <<<XML
@@ -79,6 +81,10 @@ function getPushTransactionResponse(): string
 
     return buildFakeResponse($data);
 }
+// ------- End - Push Transaction --------------------------
+
+
+// ------- Push With PendingTransaction --------------------------
 
 function getPushWithPendingSuccessResponse(): string
 {
@@ -110,19 +116,40 @@ function getPushWithPendingResponse(): string
     return buildFakeResponse($data);
 }
 
-function getResponseError(): string {
-    return <<<XML
-        <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
-            <soap:Body>
-                <soap:Fault>
-                    <faultcode>soap:Server</faultcode>
-                    <faultstring>For input string</faultstring>
-                    <detail>
-                        <ns1:Exception xmlns:ns1="http://api.merchant.tlc.com/"/>
-                    </detail>
-                </soap:Fault>
-            </soap:Body>
-        </soap:Envelope>
+// ------- End Push With PendingTransaction --------------------------
+
+
+// ------- Transaction Status  --------------------------
+
+function getTransactionStatusResponse(): string {
+
+    $data = <<<XML
+        <ns2:getTransactionStatusResponse xmlns:ns2="http://api.merchant.tlc.com/">
+            <response>
+                <description>SUCCESS</description>
+                <referenceid>12345678</referenceid>
+                <status>0</status>
+            </response>
+        </ns2:getTransactionStatusResponse>
     XML;
+    
+    return buildFakeResponse($data);
+
+}
+
+// ------- Endn Transaction Status  --------------------------
+
+function getResponseError(): string {
+    $data = <<<XML
+        <soap:Fault>
+            <faultcode>soap:Server</faultcode>
+            <faultstring>For input string</faultstring>
+            <detail>
+                <ns1:Exception xmlns:ns1="http://api.merchant.tlc.com/"/>
+            </detail>
+        </soap:Fault>
+    XML;
+
+    return buildFakeResponse($data);
 
 }

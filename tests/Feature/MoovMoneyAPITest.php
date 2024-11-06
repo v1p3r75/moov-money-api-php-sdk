@@ -69,3 +69,26 @@ it("should send push with pending transaction request", function() {
     expect($response->getTransactionData())->toBeNull(); // no transaction data if request is pending
 
 });
+
+
+it("should check a transaction status", function() {
+
+    $config = new MoovMoneyAPIConfig();
+    $config->setUsername('username');
+    $config->setPassword('password');
+    $config->setBaseUrl('http://localhost:8080');
+
+    $responseFakeSuccess = new Response(status: 200, body: getTransactionStatusResponse());
+
+    $client = Mockery::mock(Client::class);
+    $client->shouldReceive("sendRequest")->once()->andReturn($responseFakeSuccess);
+
+    
+    $sdk = new MoovMoneyAPI($config, $client);
+
+    $response = $sdk->getTransactionStatus("12345678");
+    expect($response)->toBeInstanceOf(MoovMoneyApiResponse::class);
+    expect($response->getStatusCode())->toBe(0);
+    expect($response->getDescription())->toBe('SUCCESS');
+    expect($response->getReferenceId())->toBe('12345678');
+});
