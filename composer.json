@@ -2,6 +2,7 @@
     "name": "v1p3r75/moov-money-api-sdk",
     "description": "Moov Money PHP SDK is a library designed to facilitate the integration of the Moov Money API.",
     "keywords": ["moov-money-api", "moov-money-sdk", "moov-money-php", "moov-money-sdk-php", "moov", "money", "api", "sdk", "php"],
+    "homepage": "https://github.com/v1p3r75/moov-money-api-php-sdk",
     "type": "library",
     "license": "MIT",
     "autoload": {
@@ -12,10 +13,11 @@
     "authors": [
         {
             "name": "Fortunatus KIDJE",
-            "email": "elfriedv16@gmail.com"
+            "email": "elfriedv16@gmail.com",
+            "homepage": "https://github.com/v1p3r75",
+            "role": "Developer"
         }
     ],
-    "minimum-stability": "dev",
     "require-dev": {
         "pestphp/pest": "3.x-dev",
         "phpstan/phpstan": "2.0.x-dev",
@@ -29,6 +31,6 @@
     },
     "require": {
         "guzzlehttp/guzzle": "^7.0",
-        "psr/http-client": "^1.0@dev"
+        "psr/http-client": "^1.0"
     }
 }
