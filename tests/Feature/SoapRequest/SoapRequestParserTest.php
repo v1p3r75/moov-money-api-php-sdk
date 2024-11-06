@@ -67,11 +67,27 @@ it ('should return the server error code and message', function() {
     </soap:Body>
 </soap:Envelope>';
 
+    $data3 = '<html>
+        <head>
+            <title>Error</title>
+        </head>
+
+        <body>HTTP method POST is not supported by this URL</body>
+    </html>';
+
+    $response = SoapResponseParser::parseError($data);
+
+    expect($response)->toBeString->toBe('[soap:Server] : "For input string"');
+    
     $response = SoapResponseParser::parseError($data2);
 
     expect($response)->toBeString->toBe('[Error] : "An error has occurred"');
 
-});
+    $response = SoapResponseParser::parseError($data3);
+
+    expect($response)->toBeString->toBe('[Error] : "An error has occurred"');
+
+})->throws(ServerErrorException::class);
 
 // it('should throw an exception if the body is not a valid xml string [success]', function() {
 

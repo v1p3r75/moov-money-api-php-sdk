@@ -13,10 +13,12 @@ final class SoapResponseParser
         try {
 
             $xml = new \SimpleXMLElement($body);
-            var_dump($body);
-            die();
-            
-            $response = $xml->children("soap", true)->Body->children("ns2", true)->children();
+
+            $response = $xml->children("soap", true)?->Body?->children("ns2", true)?->children();
+
+            if (is_null($response)) {
+                throw new Exception();
+            }
 
             /**
              * @var array<string> $response
@@ -37,10 +39,12 @@ final class SoapResponseParser
         try {
 
             $xml = new \SimpleXMLElement($body);
-            var_dump($body);
-            die();
 
-            $response = $xml->children("soap", true)->Body->children("soap", true)->children();
+            $response = $xml->children("soap", true)?->Body?->children("soap", true)?->children();
+
+            if (is_null($response)) {
+                throw new Exception();
+            }
 
             /**
              * @var array<string, string> response
