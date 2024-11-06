@@ -13,7 +13,9 @@ final class SoapResponseParser
         try {
 
             $xml = new \SimpleXMLElement($body);
-
+            var_dump($body);
+            die();
+            
             $response = $xml->children("soap", true)->Body->children("ns2", true)->children();
 
             /**
@@ -35,6 +37,8 @@ final class SoapResponseParser
         try {
 
             $xml = new \SimpleXMLElement($body);
+            var_dump($body);
+            die();
 
             $response = $xml->children("soap", true)->Body->children("soap", true)->children();
 
