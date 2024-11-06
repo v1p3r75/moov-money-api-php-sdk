@@ -31,8 +31,10 @@ final class Encryption
         }
 
         $cipher = "AES-256-CBC";
-        $iv = substr(hash('sha256', $key), 0, 16);
-        $encrypted = openssl_encrypt($plaintext, $cipher, $key, 0, $iv);
+
+        $iv = str_repeat("\0", openssl_cipher_iv_length($cipher));
+
+        $encrypted = openssl_encrypt($plaintext, $cipher, $key, OPENSSL_RAW_DATA, $iv);
 
         if (!$encrypted) {
 

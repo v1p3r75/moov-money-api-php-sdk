@@ -24,7 +24,7 @@ it('should return the encryption token', function () {
 
     $encryption = new Encryption($config);
 
-    $token = "K05kbDVZOU5IdlNvbXc3akxubFJHNEdIamYvYU8wL1BIL0h6dm94WjJUaz0=";
+    $token = "hnTyz1stTsRO8PxwCssFHwwUakVCzRFeJ4Ms/F9cem0=";
 
     expect($encryption->getToken())->toBe($token);
     expect($encryption->hasError())->toBeFalse();
