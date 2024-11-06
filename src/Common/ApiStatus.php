@@ -9,16 +9,18 @@ class ApiStatus
      */
     private array $status = [];
 
-    public function __construct() {
+    public function __construct()
+    {
 
-        $this->status = require(__DIR__ . "/data/status.php");
+        $this->status = require __DIR__ . "/data/status.php";
 
     }
 
-    public function getLongDescription(string $status): string {
+    public function getLongDescription(string $status): string
+    {
 
         return $this->status[$status] ?? "";
-        
+
     }
 
 }

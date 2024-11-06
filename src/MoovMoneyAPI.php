@@ -40,7 +40,7 @@ final class MoovMoneyAPI
         string $data2 = "",
         int $fee = 0
     ): MoovMoneyApiResponse {
-        
+
         $body = $this->builder->buildPushTransactionRequest(
             token: $this->encryption->getToken(),
             amount: $amount,

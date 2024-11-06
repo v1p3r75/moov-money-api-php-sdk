@@ -6,7 +6,6 @@ use MoovMoney\Common\ApiStatus;
 
 final class MoovMoneyApiResponse
 {
-
     private ApiStatus $apiStatus;
 
 
@@ -45,7 +44,7 @@ final class MoovMoneyApiResponse
     public function getLongDescription(): string
     {
 
-        return $this->apiStatus->getLongDescription($this->getStatusCode());
+        return $this->apiStatus->getLongDescription((string) $this->getStatusCode());
 
     }
 
