@@ -67,6 +67,22 @@ function buildFakeResponse($body): string {
 function getPushTransactionResponse(): string
 {
     $data = <<<XML
+        <ns2:Push xmlns:ns2="http://api.merchant.tlc.com/">
+            <result>
+                <description>description</description>
+                <referenceid>12345678</referenceid>
+                <status>111</status>
+                <transid>tag</transid>
+            </result>
+        </ns2:Push>
+    XML;
+
+    return buildFakeResponse($data);
+}
+
+function getPushWithPendingSuccessResponse(): string
+{
+    $data = <<<XML
         <ns2:PushWithPendingResponse xmlns:ns2="http://api.merchant.tlc.com/">
             <result>
                 <description>description</description>
@@ -80,6 +96,19 @@ function getPushTransactionResponse(): string
     return buildFakeResponse($data);
 }
 
+function getPushWithPendingResponse(): string
+{
+    $data = <<<XML
+        <ns2:PushWithPendingResponse xmlns:ns2="http://api.merchant.tlc.com/">
+            <result>
+                <description>pending</description>
+                <status>100</status>
+            </result>
+        </ns2:PushWithPendingResponse>
+    XML;
+
+    return buildFakeResponse($data);
+}
 
 function getResponseError(): string {
     return <<<XML

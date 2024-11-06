@@ -3,17 +3,17 @@
 namespace MoovMoney;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
-use MoovMoney\Exceptions\ServerErrorException;
 use MoovMoney\Interfaces\ConfigurationInterface;
 use MoovMoney\Response\MoovMoneyApiResponse;
 use MoovMoney\Security\Encryption;
+use MoovMoney\SoapRequest\HttpRequestTrait;
 use MoovMoney\SoapRequest\SoapRequestBuilder;
-use MoovMoney\SoapRequest\SoapResponseParser;
 use Psr\Http\Client\ClientInterface;
 
 final class MoovMoneyAPI
 {
+    use HttpRequestTrait;
+
     private SoapRequestBuilder $builder;
 
     private Encryption $encryption;
@@ -51,34 +51,37 @@ final class MoovMoneyAPI
             fee: $fee
         );
 
-        return $this->sendRequest($body);
+        return $this->request($body);
 
     }
 
-    private function sendRequest(string $body): MoovMoneyApiResponse
-    {
+    public function pushWithPendingTransaction(
+        string $telephone,
+        int $amount,
+        string $message,
+        string $data1 = "",
+        string $data2 = "",
+        int $fee = 0
+    ): MoovMoneyApiResponse {
 
-        $request = new Request(
-            method: "POST",
-            uri: "",
-            headers: [
-                'Content-Type' => 'application/soap+xml; charset=utf-8'
-            ],
-            body: $body,
+        $body = $this->builder->buildPushWithPendingRequest(
+            token: $this->encryption->getToken(),
+            amount: $amount,
+            phone: $telephone,
+            message: $message,
+            data1: $data1,
+            data2: $data2,
+            fee: $fee
         );
 
-        $response = $this->client->sendRequest($request);
-        $responseBody = $response->getBody()->getContents();
+        return $this->request($body);
 
-        if ($response->getStatusCode() >= 400) { // if request failed
+    }
 
-            $message = SoapResponseParser::parseError($responseBody);
-            throw new ServerErrorException($message);
-        }
+    private function request(string $body): MoovMoneyApiResponse
+    {
 
-        $data = SoapResponseParser::parse($responseBody);
-
-        return $data;
+        return $this->sendRequest($this->client, $body);
 
     }
 }

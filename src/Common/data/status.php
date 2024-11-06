@@ -27,6 +27,7 @@ return [
     "95" => "Transaction failed due to error",
     "98" => "Invalid Credentials",
     "99" => "Interface Internal error/Database connection error",
+    "100" => "In pending state",
     "-1" => "Interface Internal error/Database connection error",
     "555" => "Not Registered: Destination Subscriber is not registered on Moov Money",
 ];
