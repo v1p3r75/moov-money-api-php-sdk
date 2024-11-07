@@ -16,6 +16,11 @@ class ApiStatus
 
     }
 
+    /**
+     * Gets a detailed description of the status code.
+     *
+     * @return string A longer, more descriptive message based on the status code.
+     */
     public function getLongDescription(string $status): string
     {
 

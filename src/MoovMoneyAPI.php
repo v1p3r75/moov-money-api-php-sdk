@@ -10,6 +10,10 @@ use MoovMoney\SoapRequest\HttpRequestTrait;
 use MoovMoney\SoapRequest\SoapRequestBuilder;
 use Psr\Http\Client\ClientInterface;
 
+/**
+ * MoovMoneyAPI provides methods to interact with the Moov Money API.
+ * This class allows sending push transactions, push transactions with pending status checking transaction status, etc.
+ */
 final class MoovMoneyAPI
 {
     use HttpRequestTrait;
@@ -18,6 +22,12 @@ final class MoovMoneyAPI
 
     private Encryption $encryption;
 
+    /**
+    * Constructs the MoovMoneyAPI instance.
+    *
+    * @param ConfigurationInterface $config Configuration instance containing API credentials and other settings.
+    * @param ClientInterface|null $client Optional HTTP client, defaults to Guzzle if not provided.
+    */
     public function __construct(private ConfigurationInterface $config, private ?ClientInterface $client = null)
     {
 
@@ -32,6 +42,17 @@ final class MoovMoneyAPI
 
     }
 
+    /**
+     * Sends a push transaction request to Moov Money API.
+     *
+     * @param string $telephone The recipient's phone number.
+     * @param int $amount The amount to be transacted.
+     * @param string $message The message to be sent along with the transaction.
+     * @param string $data1 Optional extra data for the transaction.
+     * @param string $data2 Optional extra data for the transaction.
+     * @param int $fee Optional fee amount for the transaction.
+     * @return MoovMoneyApiResponse The response object containing transaction details and status.
+     */
     public function pushTransaction(
         string $telephone,
         int $amount,
@@ -55,6 +76,17 @@ final class MoovMoneyAPI
 
     }
 
+    /**
+     * Sends a push transaction with pending status to Moov Money API.
+     *
+     * @param string $telephone The recipient's phone number.
+     * @param int $amount The amount to be transacted.
+     * @param string $message The message to be sent along with the transaction.
+     * @param string $data1 Optional extra data for the transaction.
+     * @param string $data2 Optional extra data for the transaction.
+     * @param int $fee Optional fee amount for the transaction.
+     * @return MoovMoneyApiResponse The response object containing transaction details and status.
+     */
     public function pushWithPendingTransaction(
         string $telephone,
         int $amount,
@@ -78,6 +110,12 @@ final class MoovMoneyAPI
 
     }
 
+    /**
+     * Checks the status of a transaction using its reference ID.
+     *
+     * @param string $referenceId The unique identifier for the transaction.
+     * @return MoovMoneyApiResponse The response object containing transaction status and details.
+     */
     public function getTransactionStatus(string $referenceId): MoovMoneyApiResponse
     {
 
@@ -87,6 +125,12 @@ final class MoovMoneyAPI
 
     }
 
+    /**
+    * Sends a prepared SOAP request to the Moov Money API.
+    *
+    * @param string $body The SOAP request body.
+    * @return MoovMoneyApiResponse The response object containing transaction or error details.
+    */
     private function request(string $body): MoovMoneyApiResponse
     {
 
