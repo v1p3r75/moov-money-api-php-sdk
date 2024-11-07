@@ -11,8 +11,9 @@
     - Envoyer une Transaction Push avec Statut en Attente
     - Vérifier le Statut d'une Transaction
 4. Gestion des réponses
-5. Contribution
-6. Développeur
+5. Gestion des erreurs
+6. Contribution
+7. Développeur
 
 ## Installation
 
@@ -147,6 +148,10 @@ Convertit la réponse en un tableau associatif, en renvoyant toutes les données
 
 - `get(string $key)` :
 Cette méthode générique permet d'accéder directement à une valeur spécifique dans la réponse en utilisant sa clé. Par exemple, pour accéder au champ status :
+
+## Gestion des erreurs
+
+Les erreurs envoyées par l'API Moov Money sont levées sous forme d'exceptions, comportant le message d'erreur associé, via la classe `ServerErrorException::class`.
 
 ## Contribution
 
