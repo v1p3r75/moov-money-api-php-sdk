@@ -4,16 +4,17 @@
 
 ## Table des Matières
 
-1. Installation
-2. Configuration
-3. Fonctionnalités
-    - Envoyer une Transaction Push
-    - Envoyer une Transaction Push avec Statut en Attente
-    - Vérifier le Statut d'une Transaction
-4. Gestion des réponses
-5. Gestion des erreurs
-6. Contribution
-7. Développeur
+1. [Installation](#installation)
+2. [Configuration](#configuration)
+3. [Fonctionnalités](#fonctionnalités)
+    - [Envoyer une Transaction Push](#1-envoyer-une-transaction-push)
+    - [Envoyer une Transaction Push avec Statut en Attente](#2-envoyer-une-transaction-push-avec-statut-en-attente)
+    - [Vérifier le Statut d'une Transaction](#3-vérifier-le-statut-dune-transaction)
+4. [Gestion des réponses](#gestion-des-réponses)
+5. [Gestion des erreurs](#gestion-des-erreurs)
+6. [Les Todos](#les-tâches-à-réaliser-todos)
+7. [Contribution](#contribution)
+8. [Développeur](#développeurs)
 
 ## Installation
 
@@ -71,7 +72,7 @@ La méthode pushTransaction envoie une demande de paiement au client via une tra
 ```php
 <?php
 
-$response = $moovApi->pushTransaction(
+$response = $moovApi->pushTraDéveloppeurnsaction(
     telephone: '22995901234',
     amount: 5000,
     message: 'Paiement de 5000 FCFA',
@@ -153,10 +154,23 @@ Cette méthode générique permet d'accéder directement à une valeur spécifiq
 
 Les erreurs envoyées par l'API Moov Money sont levées sous forme d'exceptions, comportant le message d'erreur associé, via la classe `ServerErrorException::class`.
 
+## Les tâches à réaliser (Todos)
+
+- [x] Envoyer une transaction push.
+- [x] Envoyer une transaction push avec statut en attente.
+- [x] Vérifier le statut d'une transaction.
+- [ ] TransferFlooz : transférer des fonds depuis le compte du marchand vers un autre compte autorisé.
+- [ ] GetBalance : vérifier le solde actuel d’un compte abonné, principalement le solde principal.
+- [ ] GetMobileStatus : récupèrer le statut du compte mobile d’un abonné, y compris les informations KYC (K w Your Customer).
+- [ ] Cash In Transactions : effectuer des transactions de dépôt d'argent (cash-in) vers un abonné.
+- [ ] Airtime Transactions : effectuer des transactions de rechargement de crédit téléphonique pour un abonné.
+
+
+
 ## Contribution
 
-Les contributions sont les bienvenues ! Pour signaler un bug ou proposer des fonctionnalités, veuillez soumettre une issue ou une pull request.
+Les contributions sont les bienvenues ! Pour signaler un bug ou proposer des fonctionnalités, veuillez soumettre une issue ou une pull request. [Plus sur comment contributer](./CONTRIBUTING.md).
 
-## Développeur
+## Développeurs
 
-[Fortunatus KIDJE - @v1p3r75](https://github.com/v1p3r75) 
+-[Fortunatus KIDJE - @v1p3r75](https://github.com/v1p3r75) - Développeur principal
