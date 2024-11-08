@@ -38,6 +38,7 @@ use MoovMoney\MoovMoneyAPIConfig;
 $config = new MoovMoneyAPIConfig();
 $config->setUsername('your_username')
        ->setPassword('your_password')
+       ->setRequestTimeout(30) // en secondes
        ->setBaseUrl('https://api.server.com/');
 
 $moovApi = new MoovMoneyAPI($config);
@@ -72,7 +73,7 @@ La méthode pushTransaction envoie une demande de paiement au client via une tra
 ```php
 <?php
 
-$response = $moovApi->pushTraDéveloppeurnsaction(
+$response = $moovApi->pushTransaction(
     telephone: '22995901234',
     amount: 5000,
     message: 'Paiement de 5000 FCFA',
@@ -148,7 +149,7 @@ Retourne une description détaillée du statut, obtenue via la classe `ApiStatus
 Convertit la réponse en un tableau associatif, en renvoyant toutes les données contenues dans la réponse. Cela est particulièrement utile pour le débogage ou l'enregistrement des réponses de l'API.
 
 - `get(string $key)` :
-Cette méthode générique permet d'accéder directement à une valeur spécifique dans la réponse en utilisant sa clé. Par exemple, pour accéder au champ status :
+Cette méthode générique permet d'accéder directement à une valeur spécifique dans la réponse en utilisant sa clé. Par exemple, pour accéder au champ status : `$response->get('status')`
 
 ## Gestion des erreurs
 
@@ -161,7 +162,7 @@ Les erreurs envoyées par l'API Moov Money sont levées sous forme d'exceptions,
 - [x] Vérifier le statut d'une transaction.
 - [ ] TransferFlooz : transférer des fonds depuis le compte du marchand vers un autre compte autorisé.
 - [ ] GetBalance : vérifier le solde actuel d’un compte abonné, principalement le solde principal.
-- [ ] GetMobileStatus : récupèrer le statut du compte mobile d’un abonné, y compris les informations KYC (K w Your Customer).
+- [ ] GetMobileStatus : récupèrer le statut du compte mobile d’un abonné, y compris les informations KYC (Know Your Customer).
 - [ ] Cash In Transactions : effectuer des transactions de dépôt d'argent (cash-in) vers un abonné.
 - [ ] Airtime Transactions : effectuer des transactions de rechargement de crédit téléphonique pour un abonné.
 
