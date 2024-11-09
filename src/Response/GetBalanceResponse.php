@@ -19,7 +19,7 @@ class GetBalanceResponse implements ApiResponseInterface
     /**
      * Gets the message of the API response.
      *
-     * @return string The message as an string.
+     * @return string|null The message as an string.
      */
     public function getMessage(): string | null
     {

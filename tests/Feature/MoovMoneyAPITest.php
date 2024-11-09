@@ -122,3 +122,32 @@ it("should get the subscriber balance", function() {
     expect($response->GetBalance->getBalance())->toBe(382222);
     
 });
+
+it("should send a transfert flooz", function() {
+
+    $config = new MoovMoneyAPIConfig();
+    $config->setUsername('username');
+    $config->setPassword('password');
+    $config->setBaseUrl('http://localhost:8080');
+
+    $mock = new MockHandler([
+        new Response(status: 200, body: getTransferFloozResponse())
+    ]);
+    
+    $handlerStack = HandlerStack::create($mock);
+    $client = new Client(['handler' => $handlerStack]);
+
+    $sdk = new MoovMoneyAPI($config, $client);
+
+    $response = $sdk->transfertFlooz("98239988", 1200, "reference");
+
+    expect($response)->toBeInstanceOf(MoovMoneyApiResponse::class);
+    expect($response->getStatusCode())->toBe(0);
+    expect($response->TransferFlooz->getMessage())->toBe('message');
+    expect($response->TransferFlooz->getTransactionID())->toBe("1234567890");
+    expect($response->TransferFlooz->getSenderBalanceAfter())->toBe(16809);
+    expect($response->TransferFlooz->getSenderBalanceBefore())->toBe(16819);
+    expect($response->TransferFlooz->getSenderBonus())->toBe(0);
+    expect($response->TransferFlooz->getSenderKeyCost())->toBe(0);
+    
+});

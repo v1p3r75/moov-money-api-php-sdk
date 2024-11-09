@@ -159,6 +159,32 @@ function getGetBalanceResponse(): string {
 
 // ------- End GetBalane  --------------------------
 
+
+// ------- TransferFlooz  --------------------------
+
+function getTransferFloozResponse(): string {
+
+    $data = <<<XML
+        <ns2:transferFloozResponse xmlns:ns2="http://api.merchant.tlc.com/">
+            <return>
+                <transactionid>1234567890</transactionid>
+                <status>0</status>
+                <message>message</message>
+                <referenceid>920190616000000</referenceid>
+                <senderkeycost/>
+                <senderbonus/>
+                <senderbalancebefore>16819</senderbalancebefore>
+                <senderbalanceafter>16809</senderbalanceafter>
+            </return>
+        </ns2:transferFloozResponse>
+    XML;
+    
+    return buildFakeResponse($data);
+
+}
+
+// ------- End TransferFlooz  --------------------------
+
 function getResponseError(): string {
     $data = <<<XML
         <soap:Fault>
