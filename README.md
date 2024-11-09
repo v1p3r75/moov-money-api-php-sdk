@@ -10,6 +10,11 @@
     - [Envoyer une Transaction Push](#1-envoyer-une-transaction-push)
     - [Envoyer une Transaction Push avec Statut en Attente](#2-envoyer-une-transaction-push-avec-statut-en-attente)
     - [Vérifier le Statut d'une Transaction](#3-vérifier-le-statut-dune-transaction)
+    - Transférer des fonds depuis le compte du marchand vers un autre compte autorisé
+    - Vérifier le solde actuel d’un compte abonné, principalement le solde principal
+    - Récupèrer le statut du compte mobile d’un abonné
+    - Effectuer des transactions de dépôt d'argent (cash-in) vers un abonné
+    - Effectuer des transactions de rechargement de crédit téléphonique pour un abonné
 4. [Gestion des réponses](#gestion-des-réponses)
 5. [Gestion des erreurs](#gestion-des-erreurs)
 6. [Les Todos](#les-tâches-à-réaliser-todos)
@@ -61,10 +66,14 @@ $moovApi = new MoovMoneyAPI($config);
 
 Le SDK propose quelques fonctionnalités :
 
-- Envoyer une transaction push (`pushTransaction`)
-- Envoyer une transaction push avec statut en attente (`pushWithPendingTransaction`)
-- Vérifier le statut d'une transaction (`getTransactionStatus`)
-- Autres (en cours de développement...)
+- Envoyer une transaction push (`pushTransaction`).
+- Envoyer une transaction push avec statut en attente (`pushWithPendingTransaction`).
+- Vérifier le statut d'une transaction (`getTransactionStatus`).
+- Transférer des fonds depuis le compte du marchand vers un autre compte autorisé (`transfertFlooz`).
+- Vérifier le solde actuel d’un compte abonné, principalement le solde principal (`getBalance`).
+- Récupèrer le statut du compte mobile d’un abonné, y compris les informations KYC (Know Your Customer).
+- Effectuer des transactions de dépôt d'argent (cash-in) vers un abonné.
+- Effectuer des transactions de rechargement de crédit téléphonique pour un abonné.
 
 ### 1. Envoyer une Transaction Push
 
@@ -157,11 +166,11 @@ Les erreurs envoyées par l'API Moov Money sont levées sous forme d'exceptions,
 
 ## Les tâches à réaliser (Todos)
 
-- [x] Envoyer une transaction push.
-- [x] Envoyer une transaction push avec statut en attente.
-- [x] Vérifier le statut d'une transaction.
-- [ ] TransferFlooz : transférer des fonds depuis le compte du marchand vers un autre compte autorisé.
-- [ ] GetBalance : vérifier le solde actuel d’un compte abonné, principalement le solde principal.
+- [x] Push Transaction : Envoyer une transaction push.
+- [x] Push With Pending Transaction : Envoyer une transaction push avec statut en attente.
+- [x] Transaction Status : Vérifier le statut d'une transaction.
+- [x] TransferFlooz : transférer des fonds depuis le compte du marchand vers un autre compte autorisé.
+- [x] GetBalance : vérifier le solde actuel d’un compte abonné, principalement le solde principal.
 - [ ] GetMobileStatus : récupèrer le statut du compte mobile d’un abonné, y compris les informations KYC (Know Your Customer).
 - [ ] Cash In Transactions : effectuer des transactions de dépôt d'argent (cash-in) vers un abonné.
 - [ ] Airtime Transactions : effectuer des transactions de rechargement de crédit téléphonique pour un abonné.
@@ -174,4 +183,4 @@ Les contributions sont les bienvenues ! Pour signaler un bug ou proposer des fon
 
 ## Développeurs
 
--[Fortunatus KIDJE - @v1p3r75](https://github.com/v1p3r75) - Développeur principal
+- [Fortunatus KIDJE - @v1p3r75](https://github.com/v1p3r75) (Développeur principal)
