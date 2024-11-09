@@ -3,14 +3,19 @@
 namespace MoovMoney\Response;
 
 use MoovMoney\Common\ApiStatus;
+use MoovMoney\Interfaces\ApiResponseInterface;
 
 /**
  * MoovMoneyApiResponse encapsulates the response data from the Moov Money API.
  * Provides methods to access status, reference ID, transaction data, and descriptions for easy handling of API responses.
  */
-final class MoovMoneyApiResponse
+final class MoovMoneyApiResponse implements ApiResponseInterface
 {
     private ApiStatus $apiStatus;
+
+    public TransferFloozResponse $TransferFlooz;
+
+    public GetBalanceResponse $GetBalance;
 
     /**
      * Constructs the MoovMoneyApiResponse instance.
@@ -20,6 +25,8 @@ final class MoovMoneyApiResponse
     public function __construct(private array $result)
     {
         $this->apiStatus = new ApiStatus();
+        $this->TransferFlooz = new TransferFloozResponse($result);
+        $this->GetBalance = new GetBalanceResponse($result);
     }
 
     /**
@@ -88,7 +95,7 @@ final class MoovMoneyApiResponse
      * @param string $key The key to retrieve from the response data.
      * @return string|null The value associated with the key, or null if the key does not exist.
      */
-    public function get(string $key): string | null
+    public function get(string $key): ?string
     {
         return isset($this->result[$key]) ? (string) $this->result[$key] : null;
     }

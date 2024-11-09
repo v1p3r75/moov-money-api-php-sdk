@@ -85,4 +85,47 @@ final class SoapRequestBuilder
         return $this->buildRequest($data);
 
     }
+
+    public function buildTransfertFloozRequest(
+        string $token,
+        string $destination,
+        int $amount,
+        string $referenceId,
+        string $walletId = "0",
+        string $data = ""
+    ): string {
+
+        $data = <<<XML
+                <api:transferFlooz>
+                    <token>{$token}</token>
+                    <request>
+                        <destination>{$destination}</destination>
+                        <amount>{$amount}</amount>
+                        <referenceid>{$referenceId}</referenceid>
+                        <walletid>{$walletId}</walletid>
+                        <extendeddata>{$data}</extendeddata>
+                    </request>
+                </api:transferFlooz>
+            XML;
+
+        return $this->buildRequest($data);
+
+    }
+
+    public function buildGetBalanceRequest(string $token, string $msisdn): string
+    {
+
+        $data = <<<XML
+            <api:getBalance>
+                <token>{$token}</token>
+                <request>
+                    <msisdn>{$msisdn}</msisdn>
+                </request>
+            </api:getBalance>
+        XML;
+
+        return $this->buildRequest($data);
+
+    }
+
 }

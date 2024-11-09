@@ -137,7 +137,27 @@ function getTransactionStatusResponse(): string {
 
 }
 
-// ------- Endn Transaction Status  --------------------------
+// ------- End Transaction Status  --------------------------
+
+// ------- GetBalance  --------------------------
+
+function getGetBalanceResponse(): string {
+
+    $data = <<<XML
+        <ns2:getBalanceResponse xmlns:ns2="http://api.merchant.tlc.com/">
+            <return>
+                <balance>382222</balance>
+                <message>message</message>
+                <status>0</status>
+            </return>
+        </ns2:getBalanceResponse>
+    XML;
+    
+    return buildFakeResponse($data);
+
+}
+
+// ------- End GetBalane  --------------------------
 
 function getResponseError(): string {
     $data = <<<XML

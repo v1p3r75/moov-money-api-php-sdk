@@ -133,4 +133,9 @@ final class MoovMoneyAPIConfig implements ConfigurationInterface
         $this->requestTimeout = $requestTimeout;
         return $this;
     }
+
+    public function isValid(): bool
+    {
+        return isset($this->username, $this->password, $this->baseUrl);
+    }
 }

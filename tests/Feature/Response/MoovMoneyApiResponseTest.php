@@ -10,7 +10,9 @@ it('should return the right values (status, message, referenceId, etc)', functio
         'status' => 2,
         'referenceid' => '12345678',
         'description' => 'description',
-        'transid' => 'tag'
+        'transid' => 'tag',
+        'message' => 'message',
+        'balance' => 123000
     ];
 
     $response = new MoovMoneyApiResponse($data);
@@ -23,5 +25,11 @@ it('should return the right values (status, message, referenceId, etc)', functio
     expect($response->get("transid"))->toBe("tag");
     expect($response->get("other"))->toBeNull();
     expect($response->getLongDescription())->toBe($apiStatus->getLongDescription(2));
+
+    // for getBalance response
+
+    expect($response->GetBalance->getMessage())->toBe("message");
+    expect($response->GetBalance->getBalance())->toBe(123000);
+
     expect($response->toArray())->toBeArray()->toBe($data);
 });

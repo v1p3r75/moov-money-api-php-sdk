@@ -3,6 +3,7 @@
 namespace MoovMoney;
 
 use GuzzleHttp\Client;
+use MoovMoney\Exceptions\BadConfigurationException;
 use MoovMoney\Interfaces\ConfigurationInterface;
 use MoovMoney\Response\MoovMoneyApiResponse;
 use MoovMoney\Security\Encryption;
@@ -27,9 +28,15 @@ final class MoovMoneyAPI
     *
     * @param ConfigurationInterface $config Configuration instance containing API credentials and other settings.
     * @param ClientInterface|null $client Optional HTTP client, defaults to Guzzle if not provided.
+    * @throws BadConfigurationException if configuration is invalid
     */
     public function __construct(private ConfigurationInterface $config, private ?ClientInterface $client = null)
     {
+
+        if (!$config->isValid()) {
+
+            throw new BadConfigurationException("Check if you have provided the correct information like: username, password, baseUrl");
+        }
 
         $this->client = $client ?? new Client([
             'base_uri' => $config->getBaseUrl(),
@@ -126,6 +133,47 @@ final class MoovMoneyAPI
     }
 
     /**
+    * Merchant transfer a funds to an account which allowed by the configurations.
+    *
+    * @return MoovMoneyApiResponse The response object containing transaction or error details.
+    */
+    public function transfertFlooz(
+        string $destination,
+        int $amount,
+        string $referenceId,
+        string $walletId = "0",
+        string $data = ""
+    ): MoovMoneyApiResponse {
+
+        $body = $this->builder->buildTransfertFloozRequest(
+            $this->encryption->getToken(),
+            $destination,
+            $amount,
+            $referenceId,
+            $walletId,
+            $data
+        );
+
+        return $this->request($body);
+
+    }
+
+    /**
+     * To check the current balance of subscribers, default of main wallet (walletID 0).
+     *
+     * @param string $subscriberTelephone The subscriber's phone number.
+     * @return MoovMoneyApiResponse The response object containing transaction status and details.
+     */
+    public function getBalance(string $subscriberTelephone): MoovMoneyApiResponse
+    {
+
+        $body = $this->builder->buildGetBalanceRequest($this->encryption->getToken(), $subscriberTelephone);
+
+        return $this->request($body);
+
+    }
+
+    /**
     * Sends a prepared SOAP request to the Moov Money API.
     *
     * @param string $body The SOAP request body.
@@ -133,8 +181,6 @@ final class MoovMoneyAPI
     */
     private function request(string $body): MoovMoneyApiResponse
     {
-
         return $this->sendRequest($this->client, $body);
-
     }
 }

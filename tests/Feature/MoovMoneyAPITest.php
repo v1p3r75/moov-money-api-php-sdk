@@ -97,3 +97,28 @@ it("should check a transaction status", function() {
     expect($response->getDescription())->toBe('SUCCESS');
     expect($response->getReferenceId())->toBe('12345678');
 });
+
+it("should get the subscriber balance", function() {
+
+    $config = new MoovMoneyAPIConfig();
+    $config->setUsername('username');
+    $config->setPassword('password');
+    $config->setBaseUrl('http://localhost:8080');
+
+    $mock = new MockHandler([
+        new Response(status: 200, body: getGetBalanceResponse())
+    ]);
+    
+    $handlerStack = HandlerStack::create($mock);
+    $client = new Client(['handler' => $handlerStack]);
+
+    $sdk = new MoovMoneyAPI($config, $client);
+
+    $response = $sdk->getBalance("98239988");
+
+    expect($response)->toBeInstanceOf(MoovMoneyApiResponse::class);
+    expect($response->getStatusCode())->toBe(0);
+    expect($response->GetBalance->getMessage())->toBe('message');
+    expect($response->GetBalance->getBalance())->toBe(382222);
+    
+});

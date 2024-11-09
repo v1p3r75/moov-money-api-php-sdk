@@ -13,4 +13,6 @@ interface ConfigurationInterface
     public function getEncryptionKey(): string;
 
     public function getRequestTimeout(): float;
+
+    public function isValid(): bool;
 }
