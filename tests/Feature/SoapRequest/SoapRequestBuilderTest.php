@@ -64,3 +64,46 @@ it('should build the transaction status request', function () {
     expect($body)->_toBeBody($result);
 
 });
+
+it('should build the GetBalance request', function () {
+
+    $builder = new SoapRequestBuilder();
+
+    $body = $builder->buildGetBalanceRequest('token', "64006433");
+
+    $result = <<<XML
+        <api:getBalance>
+            <token>token</token>
+            <request>
+                <msisdn>64006433</msisdn>
+            </request>
+        </api:getBalance>
+    XML;
+
+    expect($body)->_toBeBody($result);
+
+});
+
+
+it('should build the transferFlooz request', function () {
+
+    $builder = new SoapRequestBuilder();
+
+    $body = $builder->buildTransfertFloozRequest('token', "64006433", 2000, "reference");
+
+    $result = <<<XML
+        <api:transferFlooz>
+            <token>token</token>
+            <request>
+                <destination>64006433</destination>
+                <amount>2000</amount>
+                <referenceid>reference</referenceid>
+                <walletid>0</walletid>
+                <extendeddata></extendeddata>
+            </request>
+        </api:transferFlooz>
+    XML;
+
+    expect($body)->_toBeBody($result);
+
+});
