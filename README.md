@@ -10,13 +10,14 @@
     - [Envoyer une Transaction Push](#1-envoyer-une-transaction-push)
     - [Envoyer une Transaction Push avec Statut en Attente](#2-envoyer-une-transaction-push-avec-statut-en-attente)
     - [Vérifier le Statut d'une Transaction](#3-vérifier-le-statut-dune-transaction)
-    - Transférer des fonds depuis le compte du marchand vers un autre compte autorisé
-    - Vérifier le solde actuel d’un compte abonné, principalement le solde principal
+    - [Transfert Flooz vers un Compte Autorisé](#4-transfert-flooz-vers-un-compte-autorisé)
+    - [Vérification du Solde d'un Abonné](#5-vérification-du-solde-dun-abonné)
     - Récupèrer le statut du compte mobile d’un abonné
     - Effectuer des transactions de dépôt d'argent (cash-in) vers un abonné
     - Effectuer des transactions de rechargement de crédit téléphonique pour un abonné
 4. [Gestion des réponses](#gestion-des-réponses)
 5. [Gestion des erreurs](#gestion-des-erreurs)
+5. [Exceptions](#exceptions)
 6. [Les Todos](#les-tâches-à-réaliser-todos)
 7. [Contribution](#contribution)
 8. [Développeur](#développeurs)
@@ -107,7 +108,7 @@ La méthode pushWithPendingTransaction envoie une demande de transaction push qu
 ```php
 <?php
 $response = $moovApi->pushWithPendingTransaction(
-    telephone: '22995181019',
+    telephone: '22995181010',
     amount: 5000,
     message: 'Paiement de 5000 FCFA',
     data1: 'Order_1234',
@@ -130,6 +131,42 @@ $statusResponse = $moovApi->getTransactionStatus('72024103000000009');
 #### Paramètres :
 
 - `referenceId` : Identifiant de la transaction dont on souhaite vérifier le statut (`string`).
+
+### 4. Transfert Flooz vers un Compte Autorisé
+
+La méthode transfertFlooz permet de transférer des fonds depuis le compte du marchand vers un compte de destination autorisé par les configurations.
+
+```php
+<?php
+$response = $moovApi->transfertFlooz(
+    destination: '22995181010',
+    amount: 10000,
+    referenceId: 'Ref_12345',
+    walletId: '0', // ID du portefeuille, par défaut "0"
+    data: 'Transfert vers partenaire' // facultatif
+);
+```
+
+#### Paramètres :
+
+- `destination` : Numéro de téléphone de destination pour le transfert (string).
+- `amount` : Montant du transfert (int).
+- `referenceId` : Identifiant unique de la transaction pour suivi (string).
+- `walletId` : ID du portefeuille utilisé pour le transfert (string, par défaut "0").
+- `data` : Données additionnelles pour la transaction (string, facultatif).
+
+### 5. Vérification du Solde d'un Abonné
+
+La méthode getBalance permet de vérifier le solde actuel d'un compte abonné, en interrogeant le portefeuille principal par défaut (ID du portefeuille : 0).
+
+```php
+$response = $moovApi->getBalance('22995181010');
+```
+
+#### Paramètres :
+
+- subscriberTelephone : Numéro de téléphone de l'abonné dont on souhaite consulter le solde (string).
+
 
 ## Gestion des réponses
 
@@ -160,9 +197,45 @@ Convertit la réponse en un tableau associatif, en renvoyant toutes les données
 - `get(string $key)` :
 Cette méthode générique permet d'accéder directement à une valeur spécifique dans la réponse en utilisant sa clé. Par exemple, pour accéder au champ status : `$response->get('status')`
 
+### Réponse pour Transfert Flooz (TransferFloozResponse)
+
+Lorsque vous effectuez un transfert de fonds avec la méthode `transfertFlooz`, les réponses spécifiques à cette méthode sont encapsulées dans un objet `TransferFloozResponse` au sein de `MoovMoneyApiResponse`, accessible via la propriété `TransferFlooz`. Cet objet offre un accès simplifié aux informations du transfert, telles que l’identifiant de la transaction, le solde avant/après, le coût et le bonus appliqué.
+
+#### Méthodes principales de TransferFloozResponse :
+
+- `getMessage()` : Récupère le message de réponse de l'API, indiquant le statut de la transaction.
+- `getTransactionID()` : Récupère l'identifiant unique de la transaction (REFID).
+- `getSenderKeyCost()` : Récupère le coût en clés pour l'expéditeur.
+- `getSenderBonus()` : Récupère le bonus reçu par l'expéditeur.transfertFlooz
+- `getSenderBalanceBefore()` : Récupère le solde de l’expéditeur avant le transfert.
+- `getSenderBalanceAfter()` : Récupère le solde de l’expéditeur après le transfert.
+- `toArray()` : Convertit la réponse en un tableau associatif.
+
+### Réponse pour la Vérification de Solde (GetBalanceResponse)
+
+Lorsque vous effectuez une vérification de solde avec la méthode `getBalance`, les réponses spécifiques à cette méthode sont encapsulées dans un objet `GetBalanceResponse` au sein de `MoovMoneyApiResponse`, accessible via la propriété GetBalance.
+
+#### Méthodes principales de GetBalanceResponse :
+
+- `getMessage()` : Récupère le message de réponse de l'API, indiquant le statut de la demande de solde.
+- `getBalance()` : Récupère le solde actuel de l'abonné.
+- `toArray()` : Convertit la réponse en un tableau associatif.
+
+
 ## Gestion des erreurs
 
-Les erreurs envoyées par l'API Moov Money sont levées sous forme d'exceptions, comportant le message d'erreur associé, via la classe `ServerErrorException::class`.
+Les erreurs envoyées par l'API Moov Money sont levées sous forme d'exceptions, comportant le message d'erreur associé, via la classe `ServerErrorException::class`. ([Plus d'informations](#exceptions))
+
+## Exceptions
+
+Le SDK Moov Money gère les erreurs en lançant des exceptions spécifiques pour faciliter le débogage et la gestion des erreurs. Voici les principales exceptions que vous pourriez rencontrer :
+
+- `ServerErrorException::class` : Cette exception est levée lorsque l'API Moov Money renvoie une erreur de serveur. Cela peut se produire si le serveur Moov est temporairement inaccessible, en cas de requêtes malformées ou si une erreur interne se produit côté serveur. Lorsque cette exception est levée, vérifiez les logs et le message d'erreur retourné pour comprendre l'origine du problème.
+
+- `BadConfigurationException::class` : Cette exception est levée lorsque la configuration du SDK est incorrecte ou incomplète. Elle peut survenir si des informations essentielles comme l'URL de base, le nom d'utilisateur, le mot de passe, ou la clé de chiffrement sont manquantes ou incorrectes. Avant de lancer des requêtes, assurez-vous que les paramètres de configuration sont bien définis et conformes aux spécifications fournies par Moov Money.
+
+Ces exceptions permettent aux développeurs de réagir de manière appropriée aux différents types d'erreurs rencontrées lors des interactions avec l'API, en facilitant la gestion des cas d'erreur et en améliorant la robustesse des applications qui utilisent ce SDK.
+
 
 ## Les tâches à réaliser (Todos)
 
@@ -180,6 +253,10 @@ Les erreurs envoyées par l'API Moov Money sont levées sous forme d'exceptions,
 ## Contribution
 
 Les contributions sont les bienvenues ! Pour signaler un bug ou proposer des fonctionnalités, veuillez soumettre une issue ou une pull request. [Plus sur comment contributer](./CONTRIBUTING.md).
+
+## License
+
+Ce projet est sous licence MIT, une licence open-source permissive qui permet une utilisation, modification et distribution libres du code. Pour plus de détails sur les conditions et les droits accordés par cette licence, consultez le fichier [LICENSE](/LICENSE.md) inclus dans le projet.
 
 ## Développeurs
 
