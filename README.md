@@ -191,6 +191,12 @@ Retourne les données supplémentaires associé à la transaction lors d'un push
 - `getLongDescription() `:
 Retourne une description détaillée du statut, obtenue via la classe `ApiStatus`. Cela permet de convertir un code de statut en message explicatif pour faciliter le débogage ou l’affichage d’informations plus claires à l’utilisateur final.
 
+- `isSuccess()` :
+Permet de vérifier si l'opération a été traitée avec succès. Elle renvoie `true` si le code de statut de la réponse correspond au statut de succès (`0`) et `false` sinon.
+
+- `isInPendingState() :`
+Permet de vérifier si la transaction est actuellement en attente de traitement. Elle renvoie `true` si le code de statut correspond au statut d'attente (`100`) et `false` sinon.
+
 - `toArray()` :
 Convertit la réponse en un tableau associatif, en renvoyant toutes les données contenues dans la réponse. Cela est particulièrement utile pour le débogage ou l'enregistrement des réponses de l'API.
 
