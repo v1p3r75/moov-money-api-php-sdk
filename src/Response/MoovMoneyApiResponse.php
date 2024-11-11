@@ -17,6 +17,11 @@ final class MoovMoneyApiResponse implements ApiResponseInterface
 
     public GetBalanceResponse $GetBalance;
 
+    private const STATUS_OK = 0;
+
+    private const STATUS_PENDING = 100;
+
+
     /**
      * Constructs the MoovMoneyApiResponse instance.
      *
@@ -77,6 +82,26 @@ final class MoovMoneyApiResponse implements ApiResponseInterface
     public function getLongDescription(): string
     {
         return $this->apiStatus->getLongDescription((string) $this->getStatusCode());
+    }
+
+    /**
+     * Checks if the API response indicates a successful transaction.
+     *
+     * @return bool True if the status code represents success, false otherwise.
+     */
+    public function isSuccess(): bool
+    {
+        return $this->getStatusCode() === self::STATUS_OK;
+    }
+
+    /**
+     * Checks if the API response indicates a pending transaction state.
+     *
+     * @return bool True if the status code represents a pending state, false otherwise.
+     */
+    public function isInPendingState(): bool
+    {
+        return $this->getStatusCode() === self::STATUS_PENDING;
     }
 
     /**

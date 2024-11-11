@@ -93,7 +93,7 @@ function getPushWithPendingSuccessResponse(): string
             <result>
                 <description>description</description>
                 <referenceid>12345678</referenceid>
-                <status>111</status>
+                <status>0</status>
                 <transid>tag</transid>
             </result>
         </ns2:PushWithPendingResponse>

@@ -59,10 +59,12 @@ it("should send push with pending transaction request", function() {
 
     $response = $sdk->pushWithPendingTransaction("90457142", 2000, "message");
     expect($response)->toBeInstanceOf(MoovMoneyApiResponse::class);
-    expect($response->getStatusCode())->toBe(111);
+    expect($response->getStatusCode())->toBe(0);
     expect($response->getDescription())->toBe('description');
     expect($response->getReferenceId())->toBe('12345678');
     expect($response->getTransactionData())->toBe('tag');
+    expect($response->isSuccess())->toBeTrue();
+
 
     $response = $sdk->pushWithPendingTransaction("90457142", 2000, "message");
     expect($response)->toBeInstanceOf(MoovMoneyApiResponse::class);
@@ -71,6 +73,8 @@ it("should send push with pending transaction request", function() {
     expect($response->getLongDescription())->toBe('In pending state');
     expect($response->getReferenceId())->toBeNull(); // no reference id if request is pending
     expect($response->getTransactionData())->toBeNull(); // no transaction data if request is pending
+    expect($response->isSuccess())->toBeFalse();
+    expect($response->isInPendingState())->toBeTrue();
 
 });
 
