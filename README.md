@@ -12,7 +12,7 @@
     - [Vérifier le Statut d'une Transaction](#3-vérifier-le-statut-dune-transaction)
     - [Transfert Flooz vers un Compte Autorisé](#4-transfert-flooz-vers-un-compte-autorisé)
     - [Vérification du Solde d'un Abonné](#5-vérification-du-solde-dun-abonné)
-    - Récupèrer le statut du compte mobile d’un abonné
+    - [Récupèrer le statut du compte mobile d’un abonné](#6-récupération-du-statut-mobile-et-des-informations-kyc-getmobilestatus)
     - Effectuer des transactions de dépôt d'argent (cash-in) vers un abonné
     - Effectuer des transactions de rechargement de crédit téléphonique pour un abonné
 4. [Gestion des réponses](#gestion-des-réponses)
@@ -70,15 +70,15 @@ Le SDK propose quelques fonctionnalités :
 - Envoyer une transaction push (`pushTransaction`).
 - Envoyer une transaction push avec statut en attente (`pushWithPendingTransaction`).
 - Vérifier le statut d'une transaction (`getTransactionStatus`).
-- Transférer des fonds depuis le compte du marchand vers un autre compte autorisé (`transfertFlooz`).
+- Transférer des fonds depuis le compte du marchand vers un autre compte autorisé (`transferFlooz`).
 - Vérifier le solde actuel d’un compte abonné, principalement le solde principal (`getBalance`).
-- Récupèrer le statut du compte mobile d’un abonné, y compris les informations KYC (Know Your Customer).
+- Récupèrer le statut du compte mobile d’un abonné, y compris les informations KYC (Know Your Customer) (`getMobileStatus`).
 - Effectuer des transactions de dépôt d'argent (cash-in) vers un abonné.
 - Effectuer des transactions de rechargement de crédit téléphonique pour un abonné.
 
 ### 1. Envoyer une Transaction Push
 
-La méthode pushTransaction envoie une demande de paiement au client via une transaction push.
+La méthode `pushTransaction` envoie une demande de paiement au client via une transaction push.
 
 ```php
 <?php
@@ -103,7 +103,7 @@ $response = $moovApi->pushTransaction(
 
 ### 2. Envoyer une Transaction Push avec Statut en Attente
 
-La méthode pushWithPendingTransaction envoie une demande de transaction push qui reste en attente jusqu’à confirmation du client. Ce dernier peut confirmer la transaction après grâce à un code USSD.
+La méthode `pushWithPendingTransaction` envoie une demande de transaction push qui reste en attente jusqu’à confirmation du client. Ce dernier peut confirmer la transaction après grâce à un code USSD.
 
 ```php
 <?php
@@ -120,7 +120,7 @@ $response = $moovApi->pushWithPendingTransaction(
 
 ### 3. Vérifier le Statut d'une Transaction
 
-La méthode getTransactionStatus permet de vérifier le statut d'une transaction existante en fournissant son identifiant de référence.
+La méthode `getTransactionStatus` permet de vérifier le statut d'une transaction existante en fournissant son identifiant de référence.
 
 ```php
 <?php
@@ -134,11 +134,11 @@ $statusResponse = $moovApi->getTransactionStatus('72024103000000009');
 
 ### 4. Transfert Flooz vers un Compte Autorisé
 
-La méthode transfertFlooz permet de transférer des fonds depuis le compte du marchand vers un compte de destination autorisé par les configurations.
+La méthode `transferFlooz` permet de transférer des fonds depuis le compte du marchand vers un compte de destination autorisé par les configurations.
 
 ```php
 <?php
-$response = $moovApi->transfertFlooz(
+$response = $moovApi->transferFlooz(
     destination: '22995181010',
     amount: 10000,
     referenceId: 'Ref_12345',
@@ -157,7 +157,7 @@ $response = $moovApi->transfertFlooz(
 
 ### 5. Vérification du Solde d'un Abonné
 
-La méthode getBalance permet de vérifier le solde actuel d'un compte abonné, en interrogeant le portefeuille principal par défaut (ID du portefeuille : 0).
+La méthode `getBalance` permet de vérifier le solde actuel d'un compte abonné, en interrogeant le portefeuille principal par défaut (ID du portefeuille : 0).
 
 ```php
 $response = $moovApi->getBalance('22995181010');
@@ -167,6 +167,16 @@ $response = $moovApi->getBalance('22995181010');
 
 - subscriberTelephone : Numéro de téléphone de l'abonné dont on souhaite consulter le solde (string).
 
+### 6. Récupération du Statut Mobile et des Informations KYC (getMobileStatus)
+
+La méthode `getMobileStatus` permet d’obtenir le statut d'un abonné et des informations KYC (par exemple, type de compte, nom, date de naissance, etc.).
+
+```php
+<?php
+
+$response = $moovApi->getMobileStatus('22995181010');
+
+```
 
 ## Gestion des réponses
 
@@ -207,26 +217,41 @@ Cette méthode générique permet d'accéder directement à une valeur spécifiq
 
 ### Réponse pour Transfert Flooz (TransferFloozResponse)
 
-Lorsque vous effectuez un transfert de fonds avec la méthode `transfertFlooz`, les réponses spécifiques à cette méthode sont encapsulées dans un objet `TransferFloozResponse` au sein de `MoovMoneyApiResponse`, accessible via la propriété `TransferFlooz`. Cet objet offre un accès simplifié aux informations du transfert, telles que l’identifiant de la transaction, le solde avant/après, le coût et le bonus appliqué.
+Lorsque vous effectuez un transfert de fonds avec la méthode `transferFlooz`, les réponses spécifiques à cette méthode sont encapsulées dans un objet `TransferFloozResponse` au sein de `MoovMoneyApiResponse`, accessible via la propriété `TransferFlooz`. Cet objet offre un accès simplifié aux informations du transfert, telles que l’identifiant de la transaction, le solde avant/après, le coût et le bonus appliqué.
 
 #### Méthodes principales de TransferFloozResponse :
 
 - `getTransactionID()` : Récupère l'identifiant unique de la transaction (REFID).
 - `getSenderKeyCost()` : Récupère le coût en clés pour l'expéditeur.
-- `getSenderBonus()` : Récupère le bonus reçu par l'expéditeur.transfertFlooz
+- `getSenderBonus()` : Récupère le bonus reçu par l'expéditeur.
 - `getSenderBalanceBefore()` : Récupère le solde de l’expéditeur avant le transfert.
 - `getSenderBalanceAfter()` : Récupère le solde de l’expéditeur après le transfert.
-- `toArray()` : Convertit la réponse en un tableau associatif.
 
 ### Réponse pour la Vérification de Solde (GetBalanceResponse)
 
-Lorsque vous effectuez une vérification de solde avec la méthode `getBalance`, les réponses spécifiques à cette méthode sont encapsulées dans un objet `GetBalanceResponse` au sein de `MoovMoneyApiResponse`, accessible via la propriété GetBalance.
+Lorsque vous effectuez une vérification de solde avec la méthode `getBalance`, les réponses spécifiques à cette méthode sont encapsulées dans un objet `GetBalanceResponse` au sein de `MoovMoneyApiResponse`, accessible via la propriété `GetBalance`.
 
 #### Méthodes principales de GetBalanceResponse :
 
 - `getBalance()` : Récupère le solde actuel de l'abonné.
-- `toArray()` : Convertit la réponse en un tableau associatif.
 
+### Réponse pour la Récupération du Statut Mobile et des Informations KYC (getMobileStatus)
+
+Lorsque vous effectuez une récupération de statut avec la méthode `getMobileStatus`, les réponses spécifiques à cette méthode sont encapsulées dans un objet `GetMobileStatusResponse` au sein de `MoovMoneyApiResponse`, accessible via la propriété `GetMobileStatus`.
+
+#### Méthodes principales de GetMobileStatusResponse :
+
+- `getAccountType()` : Retourne le type de compte de l'abonné.
+- `getAllowedTransfer()` : Retourne le montant maximal autorisé pour les transferts de cet abonné.
+- `getCity()` : Retourne la ville de résidence de l'abonné.
+- `getDateOfBirth()` : Retourne la date de naissance de l'abonné au format Y-m-d H:i:s.
+- `getFirstName()` : Retourne le prénom de l'abonné.
+- `getLastName()` : Retourne le nom de famille de l'abonné.
+- `getSecondName()` : Retourne le deuxième prénom de l'abonné, s'il est disponible.
+- `getTelephone()` : Retourne le numéro de téléphone (MSISDN) de l'abonné.
+- `getRegion()` : Retourne la région de résidence de l'abonné.
+- `getStreet()` : Retourne l'adresse postale de l'abonné.
+- `getSubscriberStatus()` : Retourne le statut actuel de l'abonné (par exemple, ACTIVE ou INACTIVE).
 
 ## Gestion des erreurs
 
@@ -250,7 +275,7 @@ Ces exceptions permettent aux développeurs de réagir de manière appropriée a
 - [x] Transaction Status : Vérifier le statut d'une transaction.
 - [x] TransferFlooz : transférer des fonds depuis le compte du marchand vers un autre compte autorisé.
 - [x] GetBalance : vérifier le solde actuel d’un compte abonné, principalement le solde principal.
-- [ ] GetMobileStatus : récupèrer le statut du compte mobile d’un abonné, y compris les informations KYC (Know Your Customer).
+- [x] GetMobileStatus : récupèrer le statut du compte mobile d’un abonné, y compris les informations KYC (Know Your Customer).
 - [ ] Cash In Transactions : effectuer des transactions de dépôt d'argent (cash-in) vers un abonné.
 - [ ] Airtime Transactions : effectuer des transactions de rechargement de crédit téléphonique pour un abonné.
 
