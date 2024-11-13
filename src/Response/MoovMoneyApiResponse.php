@@ -17,6 +17,8 @@ final class MoovMoneyApiResponse implements ApiResponseInterface
 
     public GetBalanceResponse $GetBalance;
 
+    public GetMobileStatusResponse $GetMobileStatus;
+
     private const STATUS_OK = 0;
 
     private const STATUS_PENDING = 100;
@@ -32,6 +34,7 @@ final class MoovMoneyApiResponse implements ApiResponseInterface
         $this->apiStatus = new ApiStatus();
         $this->TransferFlooz = new TransferFloozResponse($result);
         $this->GetBalance = new GetBalanceResponse($result);
+        $this->GetMobileStatus = new GetMobileStatusResponse($result);
     }
 
     /**

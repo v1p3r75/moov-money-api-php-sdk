@@ -185,6 +185,40 @@ function getTransferFloozResponse(): string {
 
 // ------- End TransferFlooz  --------------------------
 
+// ------- GetMobileStatus  --------------------------
+
+function getGetMobileStatusResponse(): string {
+
+    $data = <<<XML
+        <ns2:getMobileAccountStatusResponse xmlns:ns2="http://api.merchant.tlc.com/">
+            <return>
+                <accounttype>MCOM</accounttype>
+                <allowedtransfer>0</allowedtransfer>
+                <city>COTONOU</city>
+                <dateofbirth>1987-11-01 00:00:00.0</dateofbirth>
+                <firstname>REUGIE</firstname>
+                <lastname>ARIZALA</lastname>
+                <message>SUCCESS</message>
+                <msisdn>22994512412</msisdn>
+                <region>ATLANTIQUE</region>
+                <secondname></secondname>
+                <status>0</status>
+                <street>ST JEAN I (MINFFONGOU)</street>
+                <subscriberstatus>ACTIVE</subscriberstatus>
+            </return>
+        </ns2:getMobileAccountStatusResponse>
+    XML;
+    
+    return buildFakeResponse($data);
+
+}
+
+// ------- End GetMobileStatus  --------------------------
+
+
+
+// response 
+
 function getResponseError(): string {
     $data = <<<XML
         <soap:Fault>

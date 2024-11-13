@@ -197,6 +197,8 @@ Permet de vérifier si l'opération a été traitée avec succès. Elle renvoie 
 - `isInPendingState() :`
 Permet de vérifier si la transaction est actuellement en attente de traitement. Elle renvoie `true` si le code de statut correspond au statut d'attente (`100`) et `false` sinon.
 
+- `getMessage()` : Récupère la clé `message` de réponse de l'API (disponible sur certaines opérations comme transferFlooz, GetMobileStatus, ...)
+
 - `toArray()` :
 Convertit la réponse en un tableau associatif, en renvoyant toutes les données contenues dans la réponse. Cela est particulièrement utile pour le débogage ou l'enregistrement des réponses de l'API.
 
@@ -209,7 +211,6 @@ Lorsque vous effectuez un transfert de fonds avec la méthode `transfertFlooz`, 
 
 #### Méthodes principales de TransferFloozResponse :
 
-- `getMessage()` : Récupère le message de réponse de l'API, indiquant le statut de la transaction.
 - `getTransactionID()` : Récupère l'identifiant unique de la transaction (REFID).
 - `getSenderKeyCost()` : Récupère le coût en clés pour l'expéditeur.
 - `getSenderBonus()` : Récupère le bonus reçu par l'expéditeur.transfertFlooz
@@ -223,7 +224,6 @@ Lorsque vous effectuez une vérification de solde avec la méthode `getBalance`,
 
 #### Méthodes principales de GetBalanceResponse :
 
-- `getMessage()` : Récupère le message de réponse de l'API, indiquant le statut de la demande de solde.
 - `getBalance()` : Récupère le solde actuel de l'abonné.
 - `toArray()` : Convertit la réponse en un tableau associatif.
 
