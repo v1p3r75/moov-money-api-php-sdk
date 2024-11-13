@@ -15,15 +15,6 @@ class TransferFloozResponse implements ApiResponseInterface
     {
     }
 
-    /**
-     * Gets the message of the API response.
-     *
-     * @return string|null The message code as an string.
-     */
-    public function getMessage(): string|null
-    {
-        return $this->get('message');
-    }
 
     /**
      * Gets the transaction identifier, typically provided by Merchant (REFID).

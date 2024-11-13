@@ -17,17 +17,6 @@ class GetBalanceResponse implements ApiResponseInterface
     }
 
     /**
-     * Gets the message of the API response.
-     *
-     * @return string|null The message as an string.
-     */
-    public function getMessage(): string | null
-    {
-        return $this->get('message');
-    }
-
-
-    /**
      * Gets the balance of the API response.
      *
      * @return int The balance as an integer.

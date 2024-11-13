@@ -41,13 +41,13 @@ it('should return the right values (status, message, referenceId, etc)', functio
 
     // for getBalance response
 
-    expect($response->GetBalance->getMessage())->toBe("message");
+    expect($response->getMessage())->toBe("message");
     expect($response->GetBalance->getBalance())->toBe(123000);
 
 
     // for TransferFlooz response
 
-    expect($response->TransferFlooz->getMessage())->toBe("message");
+    expect($response->getMessage())->toBe("message");
     expect($response->TransferFlooz->getSenderBalanceBefore())->toBe(1234);
     expect($response->TransferFlooz->getSenderBalanceAfter())->toBe(1200);
     expect($response->TransferFlooz->getSenderBonus())->toBe(1);
