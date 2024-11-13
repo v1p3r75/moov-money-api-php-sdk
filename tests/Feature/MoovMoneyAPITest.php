@@ -122,7 +122,7 @@ it("should get the subscriber balance", function() {
 
     expect($response)->toBeInstanceOf(MoovMoneyApiResponse::class);
     expect($response->getStatusCode())->toBe(0);
-    expect($response->GetBalance->getMessage())->toBe('message');
+    expect($response->getMessage())->toBe('message');
     expect($response->GetBalance->getBalance())->toBe(382222);
     
 });
@@ -147,7 +147,7 @@ it("should send a transfert flooz", function() {
 
     expect($response)->toBeInstanceOf(MoovMoneyApiResponse::class);
     expect($response->getStatusCode())->toBe(0);
-    expect($response->TransferFlooz->getMessage())->toBe('message');
+    expect($response->getMessage())->toBe('message');
     expect($response->TransferFlooz->getTransactionID())->toBe("1234567890");
     expect($response->TransferFlooz->getSenderBalanceAfter())->toBe(16809);
     expect($response->TransferFlooz->getSenderBalanceBefore())->toBe(16819);

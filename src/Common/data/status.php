@@ -9,6 +9,7 @@ return [
     "4" => "The user does not have permission to perform this action",
     "6" => "Destination is not allowed to receive a transfer",
     "7" => "Destination is locked",
+    "8" => "Your balance is insufficient to complete this transaction. Please fund your account.",
     "9" => "Destination is inactive",
     "10" => "Funds is insufficient",
     "11" => "Cannot send on the above amount",

@@ -85,6 +85,16 @@ final class MoovMoneyApiResponse implements ApiResponseInterface
     }
 
     /**
+     * Gets the message of the API response.
+     *
+     * @return string|null The message code as an string.
+     */
+    public function getMessage(): string|null
+    {
+        return $this->get('message');
+    }
+
+    /**
      * Checks if the API response indicates a successful transaction.
      *
      * @return bool True if the status code represents success, false otherwise.
