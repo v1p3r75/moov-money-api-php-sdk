@@ -5,9 +5,9 @@ namespace MoovMoney;
 use GuzzleHttp\Client;
 use MoovMoney\Exceptions\BadConfigurationException;
 use MoovMoney\Interfaces\ConfigurationInterface;
+use MoovMoney\Request\HttpRequest;
 use MoovMoney\Response\MoovMoneyApiResponse;
 use MoovMoney\Security\Encryption;
-use MoovMoney\SoapRequest\HttpRequestTrait;
 use MoovMoney\SoapRequest\SoapRequestBuilder;
 use Psr\Http\Client\ClientInterface;
 
@@ -17,11 +17,11 @@ use Psr\Http\Client\ClientInterface;
  */
 final class MoovMoneyAPI
 {
-    use HttpRequestTrait;
-
     private SoapRequestBuilder $builder;
 
     private Encryption $encryption;
+
+    private HttpRequest $httpRequest;
 
     /**
     * Constructs the MoovMoneyAPI instance.
@@ -46,6 +46,8 @@ final class MoovMoneyAPI
         $this->encryption = new Encryption($config);
 
         $this->builder = new SoapRequestBuilder();
+
+        $this->httpRequest = new HttpRequest($client);
 
     }
 
@@ -181,6 +183,6 @@ final class MoovMoneyAPI
     */
     private function request(string $body): MoovMoneyApiResponse
     {
-        return $this->sendRequest($this->client, $body);
+        return $this->httpRequest->post($body);
     }
 }
