@@ -7,10 +7,10 @@ use MoovMoney\Exceptions\ServerErrorException;
 use MoovMoney\Response\MoovMoneyApiResponse;
 use MoovMoney\SoapRequest\SoapResponseParser;
 use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\ResponseInterface;
 
 final class HttpRequest
 {
-
     private const HTTP_CODE_ERROR = 400;
 
     public function __construct(private ClientInterface $client)
@@ -21,9 +21,9 @@ final class HttpRequest
     * Sends a prepared SOAP request to the Moov Money API.
     *
     * @param string $body The SOAP request body.
-    * @return MoovMoneyApiResponse The response object containing transaction or error details.
+    * @return ResponseInterface The response object.
     */
-    public function post(string $body): MoovMoneyApiResponse
+    public function post(string $body): ResponseInterface
     {
 
         $request = new Request(
@@ -37,12 +37,7 @@ final class HttpRequest
 
         $response = $this->client->sendRequest($request);
 
-        $responseBody = $response->getBody()->getContents();
-
-        return $this->parseResponse(
-            $response->getStatusCode(),
-            $responseBody
-        );
+        return $response;
     }
 
     /**
@@ -52,7 +47,7 @@ final class HttpRequest
     * @param int $responseBody The SOAP request body.
     * @return MoovMoneyApiResponse The response object containing transaction or error details.
     */
-    private function parseResponse(int $statusCode, string $responseBody): MoovMoneyApiResponse
+    public function parseResponse(int $statusCode, string $responseBody): MoovMoneyApiResponse
     {
 
         if ($statusCode >= self::HTTP_CODE_ERROR) { // if request failed

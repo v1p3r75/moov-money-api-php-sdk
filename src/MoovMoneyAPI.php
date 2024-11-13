@@ -183,6 +183,13 @@ final class MoovMoneyAPI
     */
     private function request(string $body): MoovMoneyApiResponse
     {
-        return $this->httpRequest->post($body);
+        $response = $this->httpRequest->post($body);
+
+        $responseBody = $response->getBody()->getContents();
+
+        return $this->httpRequest->parseResponse(
+            $response->getStatusCode(),
+            $responseBody
+        );
     }
 }
