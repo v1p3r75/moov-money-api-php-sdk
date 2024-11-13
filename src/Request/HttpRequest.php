@@ -44,7 +44,7 @@ final class HttpRequest
     * Parse http response body.
     *
     * @param int $statusCode The http status code.
-    * @param int $responseBody The SOAP request body.
+    * @param string $responseBody The SOAP request body.
     * @return MoovMoneyApiResponse The response object containing transaction or error details.
     */
     public function parseResponse(int $statusCode, string $responseBody): MoovMoneyApiResponse

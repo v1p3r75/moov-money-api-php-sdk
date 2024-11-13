@@ -12,8 +12,14 @@ class ApiStatus
     public function __construct()
     {
 
-        $this->status = require __DIR__ . "/data/status.php";
+        $status = require __DIR__ . "/data/status.php";
 
+        if($status && is_array($status)) {
+            /**
+             * @var array<string, string> $status
+             **/
+            $this->status = $status;
+        }
     }
 
     /**
