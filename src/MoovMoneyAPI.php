@@ -139,7 +139,7 @@ final class MoovMoneyAPI
     *
     * @return MoovMoneyApiResponse The response object containing transaction or error details.
     */
-    public function transfertFlooz(
+    public function transferFlooz(
         string $destination,
         int $amount,
         string $referenceId,
@@ -170,6 +170,21 @@ final class MoovMoneyAPI
     {
 
         $body = $this->builder->buildGetBalanceRequest($this->encryption->getToken(), $subscriberTelephone);
+
+        return $this->request($body);
+
+    }
+
+    /**
+     * To check the status of subscriber and KYC informations
+     *
+     * @param string $subscriberTelephone The subscriber's phone number.
+     * @return MoovMoneyApiResponse The response object containing transaction status and details.
+     */
+    public function getMobileStatus(string $subscriberTelephone): MoovMoneyApiResponse
+    {
+
+        $body = $this->builder->buildGetMobileStatusRequest($this->encryption->getToken(), $subscriberTelephone);
 
         return $this->request($body);
 

@@ -112,20 +112,35 @@ final class SoapRequestBuilder
 
     }
 
-    public function buildGetBalanceRequest(string $token, string $msisdn): string
+    public function buildGetBalanceRequest(string $token, string $telephone): string
     {
 
         $data = <<<XML
             <api:getBalance>
                 <token>{$token}</token>
                 <request>
-                    <msisdn>{$msisdn}</msisdn>
+                    <msisdn>{$telephone}</msisdn>
                 </request>
             </api:getBalance>
         XML;
 
         return $this->buildRequest($data);
 
+    }
+
+    public function buildGetMobileStatusRequest(string $token, string $telephone): string
+    {
+
+        $data = <<<XML
+            <api:getMobileAccountStatus>
+                <token>{$token}</token>
+                <request>
+                    <msisdn>{$telephone}</msisdn>
+                </request>
+            </api:getMobileAccountStatus>
+        XML;
+
+        return $this->buildRequest($data);
     }
 
 }

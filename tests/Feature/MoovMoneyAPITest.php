@@ -143,7 +143,7 @@ it("should send a transfert flooz", function() {
 
     $sdk = new MoovMoneyAPI($config, $client);
 
-    $response = $sdk->transfertFlooz("98239988", 1200, "reference");
+    $response = $sdk->transferFlooz("98239988", 1200, "reference");
 
     expect($response)->toBeInstanceOf(MoovMoneyApiResponse::class);
     expect($response->getStatusCode())->toBe(0);
@@ -153,5 +153,40 @@ it("should send a transfert flooz", function() {
     expect($response->TransferFlooz->getSenderBalanceBefore())->toBe(16819);
     expect($response->TransferFlooz->getSenderBonus())->toBe(0);
     expect($response->TransferFlooz->getSenderKeyCost())->toBe(0);
+    
+});
+
+it("should get the mobile status", function() {
+
+    $config = new MoovMoneyAPIConfig();
+    $config->setUsername('username');
+    $config->setPassword('password');
+    $config->setBaseUrl('http://localhost:8080');
+
+    $mock = new MockHandler([
+        new Response(status: 200, body: getGetMobileStatusResponse())
+    ]);
+    
+    $handlerStack = HandlerStack::create($mock);
+    $client = new Client(['handler' => $handlerStack]);
+
+    $sdk = new MoovMoneyAPI($config, $client);
+
+    $response = $sdk->getMobileStatus("98239988");
+
+    expect($response)->toBeInstanceOf(MoovMoneyApiResponse::class);
+    expect($response->getStatusCode())->toBe(0);
+    expect($response->getMessage())->toBe('SUCCESS');
+    expect($response->GetMobileStatus->getAccountType())->toBe("MCOM");
+    expect($response->GetMobileStatus->getAllowedTransfer())->toBe(0);
+    expect($response->GetMobileStatus->getCity())->toBe("COTONOU");
+    expect($response->GetMobileStatus->getRegion())->toBe("ATLANTIQUE");
+    expect($response->GetMobileStatus->getDateOfBirth())->toBe("1987-11-01 00:00:00.0");
+    expect($response->GetMobileStatus->getLastName())->toBe("ARIZALA");
+    expect($response->GetMobileStatus->getFirstName())->toBe("REUGIE");
+    expect($response->GetMobileStatus->getSecondName())->toBe("");
+    expect($response->GetMobileStatus->getStreet())->toBe("ST JEAN I (MINFFONGOU)");
+    expect($response->GetMobileStatus->getSubscriberStatus())->toBe("ACTIVE");
+    expect($response->GetMobileStatus->getTelephone())->toBe("22994512412");
     
 });
