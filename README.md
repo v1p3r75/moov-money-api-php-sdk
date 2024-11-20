@@ -7,20 +7,20 @@
 1. [Installation](#installation)
 2. [Configuration](#configuration)
 3. [Fonctionnalités](#fonctionnalités)
-    - [Envoyer une Transaction Push](#1-envoyer-une-transaction-push)
-    - [Envoyer une Transaction Push avec Statut en Attente](#2-envoyer-une-transaction-push-avec-statut-en-attente)
-    - [Vérifier le Statut d'une Transaction](#3-vérifier-le-statut-dune-transaction)
-    - [Transfert Flooz vers un Compte Autorisé](#4-transfert-flooz-vers-un-compte-autorisé)
-    - [Vérification du Solde d'un Abonné](#5-vérification-du-solde-dun-abonné)
-    - [Récupèrer le statut du compte mobile d’un abonné](#6-récupération-du-statut-mobile-et-des-informations-kyc-getmobilestatus)
-    - Effectuer des transactions de dépôt d'argent (cash-in) vers un abonné
-    - Effectuer des transactions de rechargement de crédit téléphonique pour un abonné
+   - [Envoyer une Transaction Push](#1-envoyer-une-transaction-push)
+   - [Envoyer une Transaction Push avec Statut en Attente](#2-envoyer-une-transaction-push-avec-statut-en-attente)
+   - [Vérifier le Statut d'une Transaction](#3-vérifier-le-statut-dune-transaction)
+   - [Transfert Flooz vers un Compte Autorisé](#4-transfert-flooz-vers-un-compte-autorisé)
+   - [Vérification du Solde d'un Abonné](#5-vérification-du-solde-dun-abonné)
+   - [Récupèrer le statut du compte mobile d’un abonné](#6-récupération-du-statut-mobile-et-des-informations-kyc-getmobilestatus)
+   - [Effectuer des transactions de dépôt d'argent (cash-in) vers un abonné](#7-effectuer-des-transactions-de-dépôt-dargent-cash-in-vers-un-abonné)
+   - [Effectuer des transactions de rechargement de crédit téléphonique pour un abonné](#8-effectuer-des-transactions-de-rechargement-de-crédit-téléphonique-pour-un-abonné)
 4. [Gestion des réponses](#gestion-des-réponses)
 5. [Gestion des erreurs](#gestion-des-erreurs)
-5. [Exceptions](#exceptions)
-6. [Les Todos](#les-tâches-à-réaliser-todos)
-7. [Contribution](#contribution)
-8. [Développeur](#développeurs)
+6. [Exceptions](#exceptions)
+7. [Les Todos](#les-tâches-à-réaliser-todos)
+8. [Contribution](#contribution)
+9. [Développeur](#développeurs)
 
 ## Installation
 
@@ -53,15 +53,13 @@ $moovApi = new MoovMoneyAPI($config);
 
 ### Détails des Options de Configuration
 
-
-
-| Option            | Type     | Description                                                                                  |
-|-------------------|----------|----------------------------------------------------------------------------------------------|
-| `username`        | `string` | Nom d'utilisateur fourni par Moov Money.                                                     |
-| `password`        | `string` | Mot de passe pour l'authentification de l'API Moov Money.                                    |
-| `baseUrl`         | `string` | URL de l'API Moov Money.                                                                     |
-| `encryptionKey`   | `string` | Clé de chiffrement pour générer les tokens d'authentification (32 caractères pour AES-256). Le SDK utilise la clé fournie par Moov : `tlc12345tlc12345tlc12345tlc12345`. Vous ne devez pas modifier cette clé, sauf si Moov en fournit une nouvelle.  |
-| `requestTimeout`  | `float`  | Durée maximale (en secondes) pour les requêtes HTTP (60 par défaut).                                         |
+| Option           | Type     | Description                                                                                                                                                                                                                                          |
+| ---------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `username`       | `string` | Nom d'utilisateur fourni par Moov Money.                                                                                                                                                                                                             |
+| `password`       | `string` | Mot de passe pour l'authentification de l'API Moov Money.                                                                                                                                                                                            |
+| `baseUrl`        | `string` | URL de l'API Moov Money.                                                                                                                                                                                                                             |
+| `encryptionKey`  | `string` | Clé de chiffrement pour générer les tokens d'authentification (32 caractères pour AES-256). Le SDK utilise la clé fournie par Moov : `tlc12345tlc12345tlc12345tlc12345`. Vous ne devez pas modifier cette clé, sauf si Moov en fournit une nouvelle. |
+| `requestTimeout` | `float`  | Durée maximale (en secondes) pour les requêtes HTTP (60 par défaut).                                                                                                                                                                                 |
 
 ## Fonctionnalités
 
@@ -93,6 +91,7 @@ $response = $moovApi->pushTransaction(
 );
 
 ```
+
 #### Paramètres :
 
 - `telephone` : Numéro de téléphone du client (`string`).
@@ -116,6 +115,7 @@ $response = $moovApi->pushWithPendingTransaction(
     fee: 0
 );
 ```
+
 #### Paramètres : Identiques à `pushTransaction`.
 
 ### 3. Vérifier le Statut d'une Transaction
@@ -128,6 +128,7 @@ La méthode `getTransactionStatus` permet de vérifier le statut d'une transacti
 $statusResponse = $moovApi->getTransactionStatus('72024103000000009');
 
 ```
+
 #### Paramètres :
 
 - `referenceId` : Identifiant de la transaction dont on souhaite vérifier le statut (`string`).
@@ -149,11 +150,11 @@ $response = $moovApi->transferFlooz(
 
 #### Paramètres :
 
-- `destination` : Numéro de téléphone de destination pour le transfert (string).
-- `amount` : Montant du transfert (int).
-- `referenceId` : Identifiant unique de la transaction pour suivi (string).
-- `walletId` : ID du portefeuille utilisé pour le transfert (string, par défaut "0").
-- `data` : Données additionnelles pour la transaction (string, facultatif).
+- `destination` : Numéro de téléphone de destination pour le transfert (`string`).
+- `amount` : Montant du transfert (`int`).
+- `referenceId` : Identifiant unique de la transaction pour suivi (`string`).
+- `walletId` : ID du portefeuille utilisé pour le transfert (`string`, par défaut `"0"`).
+- `data` : Données additionnelles pour la transaction (`string`, facultatif).
 
 ### 5. Vérification du Solde d'un Abonné
 
@@ -165,7 +166,7 @@ $response = $moovApi->getBalance('22995181010');
 
 #### Paramètres :
 
-- subscriberTelephone : Numéro de téléphone de l'abonné dont on souhaite consulter le solde (string).
+- `subscriberTelephone` : Numéro de téléphone de l'abonné dont on souhaite consulter le solde (`string`).
 
 ### 6. Récupération du Statut Mobile et des Informations KYC (getMobileStatus)
 
@@ -177,6 +178,53 @@ La méthode `getMobileStatus` permet d’obtenir le statut d'un abonné et des i
 $response = $moovApi->getMobileStatus('22995181010');
 
 ```
+#### Paramètres :
+
+- `subscriberTelephone` : Numéro de téléphone de l'abonné dont on souhaite récupérer les informations KYC (`string`).
+
+### 7. Effectuer des transactions de dépôt d'argent (cash-in) vers un abonné
+
+La méthode `cashIn` permet d'éffectuer les transactions de dépôt d'argent (cash-in) vers un abonné.
+
+```php
+<?php
+
+$response = $moovApi->cashIn(
+    "98239988",
+    2000,
+    "10000000",
+    "other_data"
+);
+
+```
+#### Paramètres :
+
+- `destination` : Numéro de téléphone de destination pour le dépôt (string).
+- `amount` : Montant du dépôt (int).
+- `referenceId` : Identifiant unique de la transaction pour suivi (string).
+- `data` : Données additionnelles pour la transaction (string, facultatif).
+
+### 8. Effectuer des transactions de rechargement de crédit téléphonique pour un abonné
+
+La méthode `airTime` permet d'éffectuer les transactions de rechargement (airtime) de crédit téléphonique pour un abonné.
+
+```php
+<?php
+
+$response = $moovApi->airTime(
+    "98239988",
+    2000,
+    "10000000",
+    "other_data"
+);
+
+```
+#### Paramètres :
+
+- `destination` : Numéro de téléphone de destination pour le rechargement (`string`).
+- `amount` : Montant du rechargement (`int`).
+- `referenceId` : Identifiant unique de la transaction pour suivi (`string`).
+- `data` : Données additionnelles pour la transaction (`string`, facultatif).
 
 ## Gestion des réponses
 
@@ -187,33 +235,33 @@ La classe `MoovMoneyApiResponse` dans le SDK Moov Money encapsule les réponses 
 Voici un aperçu des méthodes principales de `MoovMoneyApiResponse` :
 
 - `getStatusCode()` :
-Retourne le code de statut de la réponse en tant qu'entier. Ce code indique le statut de la transaction (par exemple, succès, en attente, échec). C'est à `0` quand tout est bon.
+  Retourne le code de statut de la réponse en tant qu'entier. Ce code indique le statut de la transaction (par exemple, succès, en attente, échec). C'est à `0` quand tout est bon.
 
 - `getReferenceId()` :
-Retourne l'identifiant de référence de la transaction, qui est unique pour chaque transaction. Il est utile pour effectuer des vérifications ou des suivis de transactions.
+  Retourne l'identifiant de référence de la transaction, qui est unique pour chaque transaction. Il est utile pour effectuer des vérifications ou des suivis de transactions.
 
 - `getDescription()` :
-Retourne une description courte de la transaction ou de l'erreur, telle que fournie par l'API. Cette description donne une indication rapide de la réponse, par exemple si la transaction a été réussie ou échouée.
+  Retourne une description courte de la transaction ou de l'erreur, telle que fournie par l'API. Cette description donne une indication rapide de la réponse, par exemple si la transaction a été réussie ou échouée.
 
 - `getTransactionData()` :
-Retourne les données supplémentaires associé à la transaction lors d'un push (transid).
+  Retourne les données supplémentaires associé à la transaction lors d'un push (transid).
 
 - `getLongDescription() `:
-Retourne une description détaillée du statut, obtenue via la classe `ApiStatus`. Cela permet de convertir un code de statut en message explicatif pour faciliter le débogage ou l’affichage d’informations plus claires à l’utilisateur final.
+  Retourne une description détaillée du statut, obtenue via la classe `ApiStatus`. Cela permet de convertir un code de statut en message explicatif pour faciliter le débogage ou l’affichage d’informations plus claires à l’utilisateur final.
 
 - `isSuccess()` :
-Permet de vérifier si l'opération a été traitée avec succès. Elle renvoie `true` si le code de statut de la réponse correspond au statut de succès (`0`) et `false` sinon.
+  Permet de vérifier si l'opération a été traitée avec succès. Elle renvoie `true` si le code de statut de la réponse correspond au statut de succès (`0`) et `false` sinon.
 
 - `isInPendingState() :`
-Permet de vérifier si la transaction est actuellement en attente de traitement. Elle renvoie `true` si le code de statut correspond au statut d'attente (`100`) et `false` sinon.
+  Permet de vérifier si la transaction est actuellement en attente de traitement. Elle renvoie `true` si le code de statut correspond au statut d'attente (`100`) et `false` sinon.
 
 - `getMessage()` : Récupère la clé `message` de réponse de l'API (disponible sur certaines opérations comme transferFlooz, GetMobileStatus, ...)
 
 - `toArray()` :
-Convertit la réponse en un tableau associatif, en renvoyant toutes les données contenues dans la réponse. Cela est particulièrement utile pour le débogage ou l'enregistrement des réponses de l'API.
+  Convertit la réponse en un tableau associatif, en renvoyant toutes les données contenues dans la réponse. Cela est particulièrement utile pour le débogage ou l'enregistrement des réponses de l'API.
 
 - `get(string $key)` :
-Cette méthode générique permet d'accéder directement à une valeur spécifique dans la réponse en utilisant sa clé. Par exemple, pour accéder au champ status : `$response->get('status')`
+  Cette méthode générique permet d'accéder directement à une valeur spécifique dans la réponse en utilisant sa clé. Par exemple, pour accéder au champ status : `$response->get('status')`
 
 ### Réponse pour Transfert Flooz (TransferFloozResponse)
 
@@ -267,7 +315,6 @@ Le SDK Moov Money gère les erreurs en lançant des exceptions spécifiques pour
 
 Ces exceptions permettent aux développeurs de réagir de manière appropriée aux différents types d'erreurs rencontrées lors des interactions avec l'API, en facilitant la gestion des cas d'erreur et en améliorant la robustesse des applications qui utilisent ce SDK.
 
-
 ## Les tâches à réaliser (Todos)
 
 - [x] Push Transaction : Envoyer une transaction push.
@@ -276,10 +323,12 @@ Ces exceptions permettent aux développeurs de réagir de manière appropriée a
 - [x] TransferFlooz : transférer des fonds depuis le compte du marchand vers un autre compte autorisé.
 - [x] GetBalance : vérifier le solde actuel d’un compte abonné, principalement le solde principal.
 - [x] GetMobileStatus : récupèrer le statut du compte mobile d’un abonné, y compris les informations KYC (Know Your Customer).
-- [ ] Cash In Transactions : effectuer des transactions de dépôt d'argent (cash-in) vers un abonné.
-- [ ] Airtime Transactions : effectuer des transactions de rechargement de crédit téléphonique pour un abonné.
+- [x] Cash In Transactions : effectuer des transactions de dépôt d'argent (cash-in) vers un abonné.
+- [x] Airtime Transactions : effectuer des transactions de rechargement de crédit téléphonique pour un abonné.
 
+- [ ] Supplémentaires (+) :
 
+    - [ ] Retourner les erreurs envoyées par le serveur de MoovMoney si possible dans la classe `MoovMoneyApiResponse` au lieu de lever une exception qui comporte l'erreur. 
 
 ## Contribution
 

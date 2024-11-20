@@ -215,6 +215,49 @@ function getGetMobileStatusResponse(): string {
 
 // ------- End GetMobileStatus  --------------------------
 
+// ------- CashIn Transaction  --------------------------
+
+function getCashInResponse(): string {
+
+    $data = <<<XML
+        <ns2:cashintransResponse xmlns:ns2="http://api.merchant.tlc.com/">
+            <return>
+                <message>Vous avez envoye 500F.</message>
+                <referenceid>1000000000000</referenceid>
+                <status>0</status>
+                <transid>020190628000017</transid>
+            </return>
+        </ns2:cashintransResponse>
+    XML;
+    
+    return buildFakeResponse($data);
+
+}
+
+// ------- End CashIn Transaction  --------------------------
+
+
+// ------- CashIn Transaction  --------------------------
+
+function getAirTimeResponse(): string {
+
+    $data = <<<XML
+        <ns2:airtimetransResponse xmlns:ns2="http://api.merchant.tlc.com/">
+            <return>
+                <message>Vous avez recharge 200.00 FCFA.</message>
+                <referenceid>120000000</referenceid>
+                <status>0</status>
+                <transid>020190628000024</transid>
+            </return>
+        </ns2:airtimetransResponse>
+    XML;
+    
+    return buildFakeResponse($data);
+
+}
+
+// ------- End CashIn Transaction  --------------------------
+
 
 
 // response 

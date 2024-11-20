@@ -41,7 +41,6 @@ final class SoapRequestBuilder
         XML;
 
         return $this->buildRequest($data);
-
     }
 
     public function buildPushWithPendingRequest(
@@ -67,7 +66,6 @@ final class SoapRequestBuilder
         XML;
 
         return $this->buildRequest($data);
-
     }
 
     public function buildTransactionStatusRequest(string $token, string $referenceId): string
@@ -83,7 +81,6 @@ final class SoapRequestBuilder
         XML;
 
         return $this->buildRequest($data);
-
     }
 
     public function buildTransfertFloozRequest(
@@ -109,7 +106,6 @@ final class SoapRequestBuilder
             XML;
 
         return $this->buildRequest($data);
-
     }
 
     public function buildGetBalanceRequest(string $token, string $telephone): string
@@ -125,7 +121,6 @@ final class SoapRequestBuilder
         XML;
 
         return $this->buildRequest($data);
-
     }
 
     public function buildGetMobileStatusRequest(string $token, string $telephone): string
@@ -143,4 +138,49 @@ final class SoapRequestBuilder
         return $this->buildRequest($data);
     }
 
+    public function buildCashInRequest(
+        string $token,
+        string $destination,
+        int $amount,
+        string $referenceId,
+        string $remarks = ""
+    ): string {
+
+        $data = <<<XML
+            <api:cashintrans>
+                <token>{$token}</token>
+                <request>
+                    <amount>{$amount}</amount>
+                    <destination>{$destination}</destination>
+                    <referenceid>{$referenceId}</referenceid>
+                    <remarks>{$remarks}</remarks>
+                </request>
+            </api:cashintrans>
+        XML;
+
+        return $this->buildRequest($data);
+    }
+
+    public function buildAirtimeRequest(
+        string $token,
+        string $destination,
+        int $amount,
+        string $referenceId,
+        string $remarks = ""
+    ): string {
+
+        $data = <<<XML
+            <api:airtimetrans>
+                <token>{$token}</token>
+                <request>
+                    <amount>{$amount}</amount>
+                    <destination>{$destination}</destination>
+                    <referenceid>{$referenceId}</referenceid>
+                    <remarks>{$remarks}</remarks>
+                </request>
+            </api:airtimetrans>
+        XML;
+
+        return $this->buildRequest($data);
+    }
 }
