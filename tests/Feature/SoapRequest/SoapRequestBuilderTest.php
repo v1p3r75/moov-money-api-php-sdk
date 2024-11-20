@@ -107,3 +107,78 @@ it('should build the transferFlooz request', function () {
     expect($body)->_toBeBody($result);
 
 });
+
+it('should build the getMobileStatus request', function () {
+
+    $builder = new SoapRequestBuilder();
+
+    $body = $builder->buildGetMobileStatusRequest('token', "64006433");
+
+    $result = <<<XML
+        <api:getMobileAccountStatus>
+            <token>token</token>
+            <request>
+                <msisdn>64006433</msisdn>
+            </request>
+        </api:getMobileAccountStatus>
+    XML;
+
+    expect($body)->_toBeBody($result);
+
+});
+
+it('should build the cashIn request', function () {
+
+    $builder = new SoapRequestBuilder();
+
+    $body = $builder->buildCashInRequest(
+        'token', 
+        "64006433",
+        2000,
+        "reference",
+        "data"
+    );
+
+    $result = <<<XML
+        <api:cashintrans>
+            <token>token</token>
+            <request>
+                <amount>2000</amount>
+                <destination>64006433</destination>
+                <referenceid>reference</referenceid>
+                <remarks>data</remarks>
+            </request>
+        </api:cashintrans>
+    XML;
+
+    expect($body)->_toBeBody($result);
+
+});
+
+it('should build the airTime request', function () {
+
+    $builder = new SoapRequestBuilder();
+
+    $body = $builder->buildAirtimeRequest(
+        'token', 
+        "64006433",
+        2000,
+        "reference",
+        "data"
+    );
+
+    $result = <<<XML
+        <api:airtimetrans>
+            <token>token</token>
+            <request>
+                <amount>2000</amount>
+                <destination>64006433</destination>
+                <referenceid>reference</referenceid>
+                <remarks>data</remarks>
+            </request>
+        </api:airtimetrans>
+    XML;
+
+    expect($body)->_toBeBody($result);
+
+});
