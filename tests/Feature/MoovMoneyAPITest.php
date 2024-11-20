@@ -221,3 +221,34 @@ it("should send cashIn transaction", function() {
     expect($response->getTransactionData())->toBe('020190628000017');
     
 });
+
+it("should send airtime transaction", function() {
+
+    $config = new MoovMoneyAPIConfig();
+    $config->setUsername('username');
+    $config->setPassword('password');
+    $config->setBaseUrl('http://localhost:8080');
+
+    $mock = new MockHandler([
+        new Response(status: 200, body: getAirTimeResponse())
+    ]);
+    
+    $handlerStack = HandlerStack::create($mock);
+    $client = new Client(['handler' => $handlerStack]);
+
+    $sdk = new MoovMoneyAPI($config, $client);
+
+    $response = $sdk->airTime(
+        "98239988",
+        200,
+        "10000000",
+        "other"
+    );
+
+    expect($response)->toBeInstanceOf(MoovMoneyApiResponse::class);
+    expect($response->getStatusCode())->toBe(0);
+    expect($response->getMessage())->toBe('Vous avez recharge 200.00 FCFA.');
+    expect($response->getReferenceId())->toBe('120000000');
+    expect($response->getTransactionData())->toBe('020190628000024');
+    
+});

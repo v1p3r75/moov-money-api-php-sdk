@@ -160,4 +160,27 @@ final class SoapRequestBuilder
 
         return $this->buildRequest($data);
     }
+
+    public function buildAirtimeRequest(
+        string $token,
+        string $destination,
+        int $amount,
+        string $referenceId,
+        string $remarks = ""
+    ): string {
+
+        $data = <<<XML
+            <api:airtimetrans>
+                <token>{$token}</token>
+                <request>
+                    <amount>{$amount}</amount>
+                    <destination>{$destination}</destination>
+                    <referenceid>{$referenceId}</referenceid>
+                    <remarks>{$remarks}</remarks>
+                </request>
+            </api:airtimetrans>
+        XML;
+
+        return $this->buildRequest($data);
+    }
 }

@@ -211,6 +211,33 @@ final class MoovMoneyAPI
     }
 
     /**
+     * To do an Airtime transaction for subscribers
+     *
+     * @param string $telephone Subscriber destination number.
+     * @param int $amount The amount to be transacted.
+     * @param string $referenceId Reference identifier of merchant.
+     * @param string $data Optional extra data for the transaction.
+     * @return MoovMoneyApiResponse The response object containing transaction details and status.
+     */
+    public function airTime(
+        string $telephone,
+        int $amount,
+        string $referenceId,
+        string $data = ""
+    ): MoovMoneyApiResponse {
+
+        $body = $this->builder->buildAirtimeRequest(
+            $this->encryption->getToken(),
+            $telephone,
+            $amount,
+            $referenceId,
+            $data
+        );
+
+        return $this->request($body);
+    }
+
+    /**
      * Sends a prepared SOAP request to the Moov Money API.
      *
      * @param string $body The SOAP request body.
