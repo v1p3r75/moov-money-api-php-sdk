@@ -32,7 +32,7 @@ jobs:
       run: composer install --prefer-dist --no-progress
 
     - name: Analyses source code
-      run: ./vendor/bin/phpstan analyse src --no-interaction
+      run: ./vendor/bin/phpstan analyse --level max src --no-interaction
       
     - name: Tests
       run: ./vendor/bin/pest --ci
