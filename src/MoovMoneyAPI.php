@@ -23,14 +23,16 @@ final class MoovMoneyAPI
 
     private HttpRequest $httpRequest;
 
+    private ClientInterface $client;
+
     /**
-     * Constructs the MoovMoneyAPI instance.
-     *
-     * @param ConfigurationInterface $config Configuration instance containing API credentials and other settings.
-     * @param ClientInterface|null $client Optional HTTP client, defaults to Guzzle if not provided.
-     * @throws BadConfigurationException if configuration is invalid
-     */
-    public function __construct(private ConfigurationInterface $config, private ?ClientInterface $client = null)
+    * Constructs the MoovMoneyAPI instance.
+    *
+    * @param ConfigurationInterface $config Configuration instance containing API credentials and other settings.
+    * @param ClientInterface|null $client Optional HTTP client, defaults to Guzzle if not provided.
+    * @throws BadConfigurationException if configuration is invalid
+    */
+    public function __construct(private ConfigurationInterface $config, ?ClientInterface $client = null)
     {
 
         if (!$config->isValid()) {
@@ -47,8 +49,10 @@ final class MoovMoneyAPI
 
         $this->builder = new SoapRequestBuilder();
 
-        $this->httpRequest = new HttpRequest($client);
+        $this->httpRequest = new HttpRequest($this->client);
+
     }
+
 
     /**
      * Sends a push transaction request to Moov Money API.
@@ -253,5 +257,23 @@ final class MoovMoneyAPI
             $response->getStatusCode(),
             $responseBody
         );
+    }
+
+    /**
+     * Get the client instance
+     * @return \Psr\Http\Client\ClientInterface
+     */
+    public function getClient(): ClientInterface {
+
+        return $this->client;
+    }
+
+    /**
+     * Get the configuration instance
+     * @return \MoovMoney\Interfaces\ConfigurationInterface
+     */
+    public function getConfiguration(): ConfigurationInterface {
+
+        return $this->config;
     }
 }

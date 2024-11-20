@@ -15,6 +15,7 @@ final class Encryption
 
     private bool $isFailed = false;
 
+    private const DEFAULT_IV_LENGTH = 16;
 
     /**
      * Constructs the Encryption instance and immediately generates the token.
@@ -42,7 +43,8 @@ final class Encryption
         }
 
         $cipher = "AES-256-CBC";
-        $iv = str_repeat("\0", openssl_cipher_iv_length($cipher));
+        $ivLength = openssl_cipher_iv_length($cipher);
+        $iv = str_repeat("\0", $ivLength ?: self::DEFAULT_IV_LENGTH);
 
         $encrypted = openssl_encrypt($plaintext, $cipher, $key, OPENSSL_RAW_DATA, $iv);
 
