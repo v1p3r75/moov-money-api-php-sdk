@@ -190,3 +190,34 @@ it("should get the mobile status", function() {
     expect($response->GetMobileStatus->getTelephone())->toBe("22994512412");
     
 });
+
+it("should send cashIn transaction", function() {
+
+    $config = new MoovMoneyAPIConfig();
+    $config->setUsername('username');
+    $config->setPassword('password');
+    $config->setBaseUrl('http://localhost:8080');
+
+    $mock = new MockHandler([
+        new Response(status: 200, body: getCashInResponse())
+    ]);
+    
+    $handlerStack = HandlerStack::create($mock);
+    $client = new Client(['handler' => $handlerStack]);
+
+    $sdk = new MoovMoneyAPI($config, $client);
+
+    $response = $sdk->cashIn(
+        "98239988",
+        2000,
+        "10000000",
+        "other"
+    );
+
+    expect($response)->toBeInstanceOf(MoovMoneyApiResponse::class);
+    expect($response->getStatusCode())->toBe(0);
+    expect($response->getMessage())->toBe('Vous avez envoye 500F.');
+    expect($response->getReferenceId())->toBe('1000000000000');
+    expect($response->getTransactionData())->toBe('020190628000017');
+    
+});

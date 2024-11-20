@@ -24,12 +24,12 @@ final class MoovMoneyAPI
     private HttpRequest $httpRequest;
 
     /**
-    * Constructs the MoovMoneyAPI instance.
-    *
-    * @param ConfigurationInterface $config Configuration instance containing API credentials and other settings.
-    * @param ClientInterface|null $client Optional HTTP client, defaults to Guzzle if not provided.
-    * @throws BadConfigurationException if configuration is invalid
-    */
+     * Constructs the MoovMoneyAPI instance.
+     *
+     * @param ConfigurationInterface $config Configuration instance containing API credentials and other settings.
+     * @param ClientInterface|null $client Optional HTTP client, defaults to Guzzle if not provided.
+     * @throws BadConfigurationException if configuration is invalid
+     */
     public function __construct(private ConfigurationInterface $config, private ?ClientInterface $client = null)
     {
 
@@ -48,7 +48,6 @@ final class MoovMoneyAPI
         $this->builder = new SoapRequestBuilder();
 
         $this->httpRequest = new HttpRequest($client);
-
     }
 
     /**
@@ -82,7 +81,6 @@ final class MoovMoneyAPI
         );
 
         return $this->request($body);
-
     }
 
     /**
@@ -116,7 +114,6 @@ final class MoovMoneyAPI
         );
 
         return $this->request($body);
-
     }
 
     /**
@@ -131,14 +128,13 @@ final class MoovMoneyAPI
         $body = $this->builder->buildTransactionStatusRequest($this->encryption->getToken(), $referenceId);
 
         return $this->request($body);
-
     }
 
     /**
-    * Merchant transfer a funds to an account which allowed by the configurations.
-    *
-    * @return MoovMoneyApiResponse The response object containing transaction or error details.
-    */
+     * Merchant transfer a funds to an account which allowed by the configurations.
+     *
+     * @return MoovMoneyApiResponse The response object containing transaction or error details.
+     */
     public function transferFlooz(
         string $destination,
         int $amount,
@@ -157,7 +153,6 @@ final class MoovMoneyAPI
         );
 
         return $this->request($body);
-
     }
 
     /**
@@ -172,7 +167,6 @@ final class MoovMoneyAPI
         $body = $this->builder->buildGetBalanceRequest($this->encryption->getToken(), $subscriberTelephone);
 
         return $this->request($body);
-
     }
 
     /**
@@ -187,15 +181,41 @@ final class MoovMoneyAPI
         $body = $this->builder->buildGetMobileStatusRequest($this->encryption->getToken(), $subscriberTelephone);
 
         return $this->request($body);
-
     }
 
     /**
-    * Sends a prepared SOAP request to the Moov Money API.
-    *
-    * @param string $body The SOAP request body.
-    * @return MoovMoneyApiResponse The response object containing transaction or error details.
-    */
+     * To do a CASHIN transaction for subscribers
+     *
+     * @param string $telephone Subscriber destination number.
+     * @param int $amount The amount to be transacted.
+     * @param string $referenceId Reference identifier of merchant.
+     * @param string $data Optional extra data for the transaction.
+     * @return MoovMoneyApiResponse The response object containing transaction details and status.
+     */
+    public function cashIn(
+        string $telephone,
+        int $amount,
+        string $referenceId,
+        string $data = ""
+    ): MoovMoneyApiResponse {
+
+        $body = $this->builder->buildCashInRequest(
+            $this->encryption->getToken(),
+            $telephone,
+            $amount,
+            $referenceId,
+            $data
+        );
+
+        return $this->request($body);
+    }
+
+    /**
+     * Sends a prepared SOAP request to the Moov Money API.
+     *
+     * @param string $body The SOAP request body.
+     * @return MoovMoneyApiResponse The response object containing transaction or error details.
+     */
     private function request(string $body): MoovMoneyApiResponse
     {
         $response = $this->httpRequest->post($body);
