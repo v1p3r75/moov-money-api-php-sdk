@@ -10,15 +10,21 @@ use MoovMoney\Interfaces\ConfigurationInterface;
  */
 final class MoovMoneyAPIConfig implements ConfigurationInterface
 {
+    public const API_SANDBOX_URL = 'https://testapimarchand2.moov-africa.bj:2010/com.tlc.merchant.api/UssdPush?wsdl';
+
+    public const API_PRODUCTION_URL = 'https://apimarchand.moov-africa.bj/com.tlc.merchant.api/UssdPush?wsdl';
+
     private string $username;
 
     private string $password;
 
-    private string $baseUrl;
+    private string $baseUrl = self::API_SANDBOX_URL;
 
     private string $encryptionKey = "tlc12345tlc12345tlc12345tlc12345";
 
     private float $requestTimeout = 60;
+
+    private bool $useSandbox = true;
 
     /**
      * Gets the configured username for API authentication.
@@ -134,6 +140,21 @@ final class MoovMoneyAPIConfig implements ConfigurationInterface
         return $this;
     }
 
+    public function useSandbox(bool $useSandbox): self
+    {
+        $this->useSandbox = $useSandbox;
+        
+        if (!$useSandbox) {
+            $this->setBaseUrl(self::API_PRODUCTION_URL);
+        }
+        return $this;
+    }
+
+    public function isSandbox(): bool
+    {
+        return $this->useSandbox;
+
+    }
     public function isValid(): bool
     {
         return isset($this->username, $this->password, $this->baseUrl);

@@ -32,7 +32,7 @@ composer require v1p3r75/moov-money-api-sdk
 
 ## Configuration
 
-Avant d’utiliser le SDK, configurez les identifiants de connexion, l’URL de l’API, le timeout pour les requêtes, clé de chiffrements, etc.
+Avant d’utiliser le SDK, configurez les identifiants de connexion, le timeout pour les requêtes, clé de chiffrements, l’environnement (sandbox ou production), etc.
 Le SDK inclut une classe `MoovMoneyAPIConfig` pour simplifier cette configuration.
 
 ```php
@@ -45,7 +45,7 @@ $config = new MoovMoneyAPIConfig();
 $config->setUsername('your_username')
        ->setPassword('your_password')
        ->setRequestTimeout(30) // en secondes
-       ->setBaseUrl('https://api.server.com/');
+       ->useSandbox(true); // Active le mode sandbox (désactivez pour production)
 
 $moovApi = new MoovMoneyAPI($config);
 
@@ -55,11 +55,40 @@ $moovApi = new MoovMoneyAPI($config);
 
 | Option           | Type     | Description                                                                                                                                                                                                                                          |
 | ---------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `username`       | `string` | Nom d'utilisateur fourni par Moov Money.                                                                                                                                                                                                             |
-| `password`       | `string` | Mot de passe pour l'authentification de l'API Moov Money.                                                                                                                                                                                            |
-| `baseUrl`        | `string` | URL de l'API Moov Money.                                                                                                                                                                                                                             |
+| `username`       | `string` | Nom d'utilisateur fourni par Moov Money.|
+| `password`       | `string` | Mot de passe pour l'authentification de l'API Moov Money.|
+| `baseUrl`        | `string` | URL de l'API Moov Money. Par défaut, l'URL du mode sandbox est utilisée. En mode production, l'URL de prod est automatiquement définie lors de l'appel à useSandbox(false).|
 | `encryptionKey`  | `string` | Clé de chiffrement pour générer les tokens d'authentification (32 caractères pour AES-256). Le SDK utilise la clé fournie par Moov : `tlc12345tlc12345tlc12345tlc12345`. Vous ne devez pas modifier cette clé, sauf si Moov en fournit une nouvelle. |
-| `requestTimeout` | `float`  | Durée maximale (en secondes) pour les requêtes HTTP (60 par défaut).                                                                                                                                                                                 |
+| `requestTimeout` | `float`  | Durée maximale (en secondes) pour les requêtes HTTP (60 par défaut).|
+| `useSandbox` | `bool`  | Définit l'environnement (`true` pour `sandbox`, `false` pour `production`). Par défaut, le mode sandbox est activé.|
+
+#### Gestion des Environnements (Sandbox et Production)
+
+Le SDK prend en charge deux environnements : `sandbox` (test) et `production`.
+
+Par défaut, l'environnement est configuré en mode sandbox pour garantir que les appels initiaux n'affectent pas les transactions réelles.
+Vous pouvez basculer entre les environnements en utilisant la méthode `useSandbox`.
+
+##### Exemple :
+```php
+<?php
+
+$config = new MoovMoneyAPIConfig();
+
+// Activer le mode production
+$config->useSandbox(false);
+
+// Vérifier l'environnement actif
+if ($config->isSandbox()) {
+    echo "Environnement actif : Sandbox";
+} else {
+    echo "Environnement actif : Production";
+}
+```
+
+Lorsque vous passez en mode production avec useSandbox(false), l'URL de base (`https://testapimarchand2.moov-africa.bj:2010/com.tlc.merchant.api/UssdPush?wsdl`) est automatiquement mise à jour vers l'URL de production (`https://apimarchand.moov-africa.bj/com.tlc.merchant.api/UssdPush?wsdl`).
+
+##### NB : _Si vous constatez que les URL utilisées par le SDK ne correspondent pas à celles fournies par Moov Money, n'hésitez pas à utiliser la méthode `setBaseUrl` pour les définir directement_.
 
 ## Fonctionnalités
 
