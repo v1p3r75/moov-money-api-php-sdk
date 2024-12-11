@@ -36,3 +36,19 @@ it('should check if configuration is valid or not', function () {
     expect($config->isValid())->toBeTrue();
     
 });
+
+it('should manage environment mode', function() {
+    
+    $config = new MoovMoneyAPIConfig();
+    expect($config->isSandbox())->toBeTrue();
+    expect($config->getBaseUrl())->toBe($config::API_SANDBOX_URL);
+
+
+    $config->useSandbox(false);
+    expect($config->isSandbox())->toBeFalse();
+    expect($config->getBaseUrl())->toBe($config::API_PRODUCTION_URL);
+
+    $newConfig = new MoovMoneyAPIConfig();
+    $newConfig->setBaseUrl('base_url');
+    expect($newConfig->getBaseUrl())->toBe("base_url");
+});
